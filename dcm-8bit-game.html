@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diamond Color Matic - 8-Bit Tinting Machine Game</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components/dcm-8bit-game.css">
+
+  <style>
+    /* Zero Shadow, Zero Glow, Flat Retro Arcade Layout */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      filter: none !important;
+    }
+
+    body {
+      background-color: #060d1a;
+      background-image: 
+        radial-gradient(#102446 1px, transparent 1px);
+      background-size: 16px 16px;
+      color: #e2e8f0;
+      font-family: 'Space Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 24px 16px 48px;
+    }
+
+    /* Top Banner */
+    .page-header {
+      text-align: center;
+      margin-bottom: 24px;
+      max-width: 680px;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background-color: #0b5ed7;
+      border: 2px solid #ffffff;
+      color: #ffffff;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      padding: 6px 12px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .brand-pill .gem {
+      width: 10px;
+      height: 10px;
+      background-color: #00ffcc;
+      border: 1px solid #000;
+      clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+    }
+
+    .page-title {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 12px;
+      color: #94a3b8;
+      line-height: 1.6;
+    }
+
+    /* Main Arcade Center Container */
+    .arcade-wrapper {
+      width: 100%;
+      max-width: 440px;
+      margin: 0 auto 32px;
+    }
+
+    /* Embed Documentation Box */
+    .embed-card {
+      width: 100%;
+      max-width: 680px;
+      background-color: #0c182c;
+      border: 3px solid #1e3a6a;
+      padding: 16px;
+      margin-top: 16px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .embed-card h3 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      color: #00ff66;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .embed-card p {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .code-block {
+      background-color: #040912;
+      border: 2px solid #233860;
+      padding: 12px;
+      font-size: 11px;
+      color: #38bdf8;
+      overflow-x: auto;
+      white-space: pre;
+      margin-bottom: 12px;
+      user-select: all;
+    }
+
+    .embed-tabs {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .embed-tab-btn {
+      background-color: #172a4d;
+      color: #94a3b8;
+      border: 2px solid #233860;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px;
+      padding: 6px 10px;
+      cursor: pointer;
+    }
+
+    .embed-tab-btn:hover {
+      background-color: #233860;
+      color: #ffffff;
+    }
+
+    .embed-tab-btn.active {
+      background-color: #ffffff;
+      color: #000000;
+      border-color: #ffffff;
+    }
+
+    .back-link {
+      margin-top: 24px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px;
+      color: #38bdf8;
+      text-decoration: none;
+      border: 2px solid #38bdf8;
+      padding: 8px 14px;
+      display: inline-block;
+    }
+
+    .back-link:hover {
+      background-color: #38bdf8;
+      color: #000000;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Page Header -->
+  <header class="page-header">
+    <div class="brand-pill">
+      <span class="gem"></span>
+      <span>Diamond Paints Pakistan</span>
+    </div>
+    <h1 class="page-title">8-BIT COLOR MATIC</h1>
+    <p class="page-subtitle">Interactive 8-Bit Paint Dispenser & Tinting Machine Mini-Game</p>
+  </header>
+
+  <!-- Arcade Machine Stage -->
+  <main class="arcade-wrapper">
+    <div id="dcmTintingGameMount"></div>
+  </main>
+
+  <!-- Embed in Your Webpage Guide -->
+  <section class="embed-card">
+    <h3>[ HOW TO ADD TO YOUR WEBPAGE ]</h3>
+    <p>This mini-game is 100% self-contained with zero shadows, zero glows, and authentic 8-bit chiptune sound. Choose your embed method:</p>
+
+    <div class="embed-tabs">
+      <button class="embed-tab-btn active" onclick="switchEmbedTab('iframe')">OPTION 1: IFRAME EMBED</button>
+      <button class="embed-tab-btn" onclick="switchEmbedTab('inline')">OPTION 2: DIRECT JS COMPONENT</button>
+    </div>
+
+    <!-- Iframe Snippet -->
+    <div id="snippetIframe" class="code-block">&lt;!-- Drop anywhere in your HTML page --&gt;
+&lt;iframe 
+  src="dcm-8bit-game.html" 
+  width="100%" 
+  height="720" 
+  style="max-width: 440px; border: 3px solid #000; display: block; margin: 0 auto;" 
+  frameborder="0"&gt;
+&lt;/iframe&gt;</div>
+
+    <!-- Inline JS Snippet -->
+    <div id="snippetInline" class="code-block" style="display: none;">&lt;!-- 1. Include the styles and script --&gt;
+&lt;link rel="stylesheet" href="components/dcm-8bit-game.css"&gt;
+&lt;script src="components/dcm-8bit-game.js"&gt;&lt;/script&gt;
+
+&lt;!-- 2. Add container and mount --&gt;
+&lt;div id="my-dcm-game" style="max-width: 440px; margin: 0 auto;"&gt;&lt;/div&gt;
+&lt;script&gt;
+  DCM8BitGame.mount('#my-dcm-game', {
+    imageSrc: 'Diamond-Color-Matic-Kiosk.png',
+    pixelImageSrc: 'Diamond-Color-Matic-Kiosk-8bit.png'
+  });
+&lt;/script&gt;</div>
+  </section>
+
+  <a href="index.html" class="back-link">◀ RETURN TO DCM WEBPAGE</a>
+
+  <!-- Script initialization -->
+  <script src="components/dcm-8bit-game.js"></script>
+  <script>
+    // Mount the game
+    const game = DCM8BitGame.mount('#dcmTintingGameMount', {
+      imageSrc: 'Diamond-Color-Matic-Kiosk.png',
+      pixelImageSrc: 'Diamond-Color-Matic-Kiosk-8bit.png'
+    });
+
+    // Snippet Tab Switcher
+    function switchEmbedTab(tab) {
+      const btns = document.querySelectorAll('.embed-tab-btn');
+      btns.forEach(b => b.classList.remove('active'));
+      const iframeSnippet = document.getElementById('snippetIframe');
+      const inlineSnippet = document.getElementById('snippetInline');
+
+      if (tab === 'iframe') {
+        btns[0].classList.add('active');
+        iframeSnippet.style.display = 'block';
+        inlineSnippet.style.display = 'none';
+      } else {
+        btns[1].classList.add('active');
+        iframeSnippet.style.display = 'none';
+        inlineSnippet.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

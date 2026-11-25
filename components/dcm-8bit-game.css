@@ -1,0 +1,1246 @@
+/* ==========================================================================
+   DIAMOND COLOR MATIC (DCM) - 8-BIT TINTING MACHINE GAME
+   Strict Design Directives:
+   - Zero Box Shadows (box-shadow: none !important)
+   - Zero Text Shadows (text-shadow: none !important)
+   - Zero Glow Effects (filter: none !important)
+   - Zero Hover Lifting (NO translateY on hover)
+   - 100% Crisp Retro 8-Bit Pixel Art Aesthetic
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --dcm8-font: 'Press Start 2P', 'Courier New', monospace;
+  --dcm8-bg: #0b1528;
+  --dcm8-panel-bg: #111e38;
+  --dcm8-panel-border: #233860;
+  --dcm8-brand-blue: #0b5ed7;
+  --dcm8-brand-navy: #082d6b;
+  --dcm8-brand-pink: #d4205e;
+  --dcm8-brand-yellow: #f5a623;
+  --dcm8-crt-bg: #031424;
+  --dcm8-crt-text: #00ff66;
+  --dcm8-text: #e2e8f0;
+  --dcm8-text-dim: #94a3b8;
+  --dcm8-pixel-border: 2px solid #000000;
+  --dcm8-pixel-border-light: 2px solid #ffffff;
+}
+
+/* Base Container */
+.dcm8-game-root {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  background-color: var(--dcm8-bg);
+  border: 4px solid #000000;
+  outline: 2px solid #334155;
+  box-sizing: border-box;
+  font-family: var(--dcm8-font);
+  color: var(--dcm8-text);
+  user-select: none;
+  -webkit-user-select: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  font-smooth: never;
+  -webkit-font-smoothing: none;
+  text-rendering: geometricPrecision;
+  overflow: hidden;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+.dcm8-game-root *,
+.dcm8-game-root *::before,
+.dcm8-game-root *::after {
+  box-sizing: border-box;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* Header Marquee */
+.dcm8-header {
+  background-color: #000000;
+  border-bottom: 3px solid #233860;
+  padding: 8px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dcm8-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9px;
+  color: #ffcc00;
+  letter-spacing: 0.5px;
+}
+
+.dcm8-gem-icon {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  background-color: #00e5ff;
+  border: 1px solid #000000;
+  clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+}
+
+.dcm8-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dcm8-btn-tiny {
+  background-color: #1e293b;
+  color: #ffffff;
+  border: 2px solid #475569;
+  font-family: var(--dcm8-font);
+  font-size: 7px;
+  padding: 4px 6px;
+  cursor: pointer;
+  outline: none;
+}
+
+.dcm8-btn-tiny:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+.dcm8-btn-tiny:active {
+  background-color: #ffcc00;
+  color: #000000;
+}
+
+/* Kiosk Stage */
+.dcm8-stage-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 149.9%; /* 1535 / 1024 aspect ratio */
+  background-color: #071326;
+  overflow: hidden;
+  border-bottom: 3px solid #000000;
+}
+
+.dcm8-kiosk-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Kiosk Machine Image */
+.dcm8-kiosk-graphic {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+/* Machine Shake Animation */
+.dcm8-kiosk-container.shaking {
+  animation: dcm8-pixel-rumble 0.08s steps(2) infinite;
+}
+
+@keyframes dcm8-pixel-rumble {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-2px, 1px); }
+  50% { transform: translate(2px, -1px); }
+  75% { transform: translate(-1px, -2px); }
+  100% { transform: translate(1px, 2px); }
+}
+
+/* ==========================================================================
+   TOP MONITOR CRT SCREEN OVERLAY (X: 29.5%, Y: 3.5%, W: 38.0%, H: 18.2%)
+   ========================================================================== */
+.dcm8-screen-overlay {
+  position: absolute;
+  top: 3.5%;
+  left: 29.5%;
+  width: 38.0%;
+  height: 18.2%;
+  background-color: #04101e;
+  border: 2px solid #0f2744;
+  overflow: hidden;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 4px;
+}
+
+/* Retro CRT Scanlines */
+.dcm8-screen-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.35) 0px,
+    rgba(0, 0, 0, 0.35) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+.dcm8-screen-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 5px;
+  color: #00ffaa;
+  border-bottom: 1px solid #133955;
+  padding-bottom: 2px;
+}
+
+.dcm8-screen-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 3px;
+  padding: 2px 0;
+}
+
+.dcm8-screen-color-box {
+  width: 18px;
+  height: 10px;
+  border: 1px solid #ffffff;
+  display: inline-block;
+}
+
+.dcm8-screen-shade-name {
+  font-size: 5.5px;
+  color: #ffffff;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 95%;
+}
+
+.dcm8-screen-code {
+  font-size: 4.5px;
+  color: #ffdd44;
+}
+
+.dcm8-screen-status-badge {
+  font-size: 5px;
+  padding: 2px 4px;
+  background-color: #000000;
+  color: #00ff66;
+  border: 1px solid #00ff66;
+  animation: dcm8-blink 0.8s steps(2) infinite;
+}
+
+@keyframes dcm8-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0.2; }
+}
+
+.dcm8-screen-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 4.5px;
+  color: #38bdf8;
+  border-top: 1px solid #133955;
+  padding-top: 2px;
+}
+
+.dcm8-screen-bars {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 6px;
+}
+
+.dcm8-screen-bar {
+  width: 3px;
+  height: 3px;
+  background-color: #38bdf8;
+}
+
+.dcm8-screen-bar:nth-child(2) { background-color: #f43f5e; height: 5px; }
+.dcm8-screen-bar:nth-child(3) { background-color: #eab308; height: 4px; }
+.dcm8-screen-bar:nth-child(4) { background-color: #22c55e; height: 6px; }
+
+/* ==========================================================================
+   BOTTOM CAVITY / DISPENSER BAY (X: 29.8%, Y: 57.0%, W: 38.6%, H: 33.8%)
+   ========================================================================== */
+.dcm8-cavity-overlay {
+  position: absolute;
+  top: 57.0%;
+  left: 29.8%;
+  width: 38.6%;
+  height: 33.8%;
+  background-color: #011129;
+  border: 2px solid #031b3e;
+  overflow: hidden;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Interior Lighting & Texture */
+.dcm8-cavity-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(180deg, #020b18 0%, #031633 80%, #052047 100%);
+  pointer-events: none;
+}
+
+/* Metal Dispenser Nozzle Assembly at Ceiling */
+.dcm8-nozzle-rig {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 22px;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: top 0.2s steps(4);
+}
+
+.dcm8-nozzle-rig.active {
+  top: 4px;
+}
+
+.dcm8-nozzle-mount {
+  width: 44px;
+  height: 6px;
+  background-color: #475569;
+  border-bottom: 2px solid #1e293b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.dcm8-nozzle-led {
+  width: 4px;
+  height: 4px;
+  background-color: #dc2626;
+  border: 1px solid #000000;
+}
+
+.dcm8-nozzle-led.ready {
+  background-color: #16a34a;
+}
+
+.dcm8-nozzle-led.dispensing {
+  background-color: #eab308;
+  animation: dcm8-blink 0.2s steps(2) infinite;
+}
+
+.dcm8-nozzle-heads {
+  display: flex;
+  gap: 3px;
+  margin-top: -1px;
+}
+
+.dcm8-nozzle-tip {
+  width: 4px;
+  height: 7px;
+  background-color: #94a3b8;
+  border: 1px solid #0f172a;
+}
+
+.dcm8-nozzle-tip.center {
+  height: 9px;
+  background-color: #cbd5e1;
+}
+
+/* Paint Pouring Streams */
+.dcm8-pour-stream {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 0;
+  background-color: #ffffff;
+  z-index: 14;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dcm8-pour-stream.pouring {
+  opacity: 1;
+  height: 74px;
+  animation: dcm8-stream-pulse 0.12s steps(3) infinite;
+}
+
+@keyframes dcm8-stream-pulse {
+  0% { width: 5px; opacity: 0.95; }
+  50% { width: 7px; opacity: 1; }
+  100% { width: 6px; opacity: 0.95; }
+}
+
+/* Splatter Particles */
+.dcm8-splatter-container {
+  position: absolute;
+  bottom: 114px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 68px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 18;
+  display: none;
+}
+
+.dcm8-splatter-container.active {
+  display: block;
+}
+
+.dcm8-drop {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+}
+
+.dcm8-drop:nth-child(1) { left: 8px; bottom: 2px; animation: dcm8-bounce-1 0.3s steps(3) infinite; }
+.dcm8-drop:nth-child(2) { left: 16px; bottom: 4px; animation: dcm8-bounce-2 0.25s steps(3) infinite; }
+.dcm8-drop:nth-child(3) { left: 26px; bottom: 3px; animation: dcm8-bounce-3 0.28s steps(3) infinite; }
+.dcm8-drop:nth-child(4) { left: 32px; bottom: 1px; animation: dcm8-bounce-1 0.22s steps(3) infinite; }
+
+@keyframes dcm8-bounce-1 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(-4px, -10px); }
+  100% { transform: translate(-7px, 2px); }
+}
+
+@keyframes dcm8-bounce-2 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(0px, -14px); }
+  100% { transform: translate(1px, 2px); }
+}
+
+@keyframes dcm8-bounce-3 {
+  0% { transform: translate(0, 0); }
+  50% { transform: translate(4px, -11px); }
+  100% { transform: translate(6px, 2px); }
+}
+
+/* Platform Floor */
+.dcm8-cavity-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 14px;
+  background-color: #1e293b;
+  border-top: 2px solid #475569;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dcm8-floor-plate {
+  width: 82%;
+  height: 6px;
+  background-color: #334155;
+  border: 1px solid #000000;
+}
+
+/* ==========================================================================
+   8-BIT PAINT BUCKET SPRITE
+   ========================================================================== */
+.dcm8-bucket-assembly {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 118px;
+  height: 136px;
+  z-index: 16;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.35s steps(8), opacity 0.2s steps(2);
+}
+
+.dcm8-bucket-assembly.entering {
+  transform: translate(-140%, 0);
+  opacity: 0;
+}
+
+.dcm8-bucket-assembly.mixing-shake {
+  animation: dcm8-bucket-shake 0.08s steps(2) infinite;
+}
+
+@keyframes dcm8-bucket-shake {
+  0% { transform: translate(-50%, 0); }
+  25% { transform: translate(calc(-50% - 3px), 0); }
+  75% { transform: translate(calc(-50% + 3px), 0); }
+  100% { transform: translate(-50%, 0); }
+}
+
+/* Bucket Handle Wire */
+.dcm8-bucket-handle {
+  width: 78px;
+  height: 22px;
+  border: 3px solid #94a3b8;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  margin-bottom: -4px;
+  z-index: 17;
+  position: relative;
+}
+
+/* Bucket Lid (Seals on finish) */
+.dcm8-bucket-lid {
+  width: 112px;
+  height: 12px;
+  background-color: #cbd5e1;
+  border: 2px solid #0f172a;
+  border-bottom: 1px solid #475569;
+  position: relative;
+  z-index: 18;
+  transition: transform 0.2s steps(4);
+}
+
+.dcm8-bucket-lid.open {
+  transform: translateY(-24px);
+  opacity: 0;
+}
+
+/* Bucket Main Body Can */
+.dcm8-bucket-body {
+  width: 104px;
+  height: 104px;
+  background-color: #f1f5f9;
+  border: 2px solid #0f172a;
+  border-top: none;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Metal Rim Bands */
+.dcm8-bucket-rim {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 7px;
+  background-color: #94a3b8;
+  border-bottom: 1px solid #475569;
+  z-index: 12;
+}
+
+.dcm8-bucket-base-band {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background-color: #94a3b8;
+  border-top: 1px solid #475569;
+  z-index: 12;
+}
+
+/* Paint Fill Liquid Inside Can */
+.dcm8-bucket-paint-level {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background-color: #d4205e;
+  z-index: 5;
+  transition: height 0.15s steps(4);
+}
+
+/* Stepped Pixel Wave on Paint Surface */
+.dcm8-paint-surface {
+  position: absolute;
+  top: -2px;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.4);
+  z-index: 6;
+}
+
+/* Front Brand Label on Bucket */
+.dcm8-bucket-label {
+  position: relative;
+  margin: 14px 8px 12px 8px;
+  height: 64px;
+  background-color: #ffffff;
+  border: 1.5px solid #000000;
+  z-index: 14;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+}
+
+.dcm8-label-brand {
+  font-size: 7.5px;
+  color: #d4205e;
+  letter-spacing: 0.3px;
+  margin-bottom: 4px;
+}
+
+.dcm8-label-swatch {
+  width: 82%;
+  height: 22px;
+  background-color: #d4205e;
+  border: 1px solid #000000;
+  margin-bottom: 4px;
+}
+
+.dcm8-label-name {
+  font-size: 6px;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 92%;
+  text-overflow: ellipsis;
+}
+
+/* Sparkles on Completed Bucket */
+.dcm8-sparkle {
+  position: absolute;
+  font-size: 10px;
+  color: #ffea00;
+  z-index: 20;
+  display: none;
+  animation: dcm8-blink 0.3s steps(2) infinite;
+}
+
+.dcm8-sparkle.active {
+  display: block;
+}
+
+.dcm8-sparkle-1 { top: 10px; left: -8px; }
+.dcm8-sparkle-2 { top: 4px; right: -8px; }
+.dcm8-sparkle-3 { bottom: 20px; right: -12px; }
+
+/* "READY TO COLLECT" Indicator Tag */
+.dcm8-collect-tag {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000000;
+  border: 2px solid #00ff66;
+  color: #00ff66;
+  font-size: 6px;
+  padding: 3px 6px;
+  z-index: 25;
+  cursor: pointer;
+  display: none;
+  white-space: nowrap;
+  animation: dcm8-blink 0.6s steps(2) infinite;
+}
+
+.dcm8-collect-tag.active {
+  display: block;
+}
+
+/* ==========================================================================
+   ARCADE GAME CONTROLS & PALETTE PANEL (BOTTOM CONSOLE)
+   ========================================================================== */
+.dcm8-control-deck {
+  background-color: var(--dcm8-panel-bg);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Section Header Bar */
+.dcm8-section-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 7px;
+  color: #94a3b8;
+  border-bottom: 2px solid var(--dcm8-panel-border);
+  padding-bottom: 4px;
+}
+
+.dcm8-section-label span {
+  color: #38bdf8;
+}
+
+/* Palette Swatches Grid (16 Classic DCM Shades) */
+.dcm8-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  background-color: #091224;
+  padding: 6px;
+  border: 2px solid #000000;
+}
+
+.dcm8-swatch-cell {
+  position: relative;
+  aspect-ratio: 1;
+  background-color: #d4205e;
+  border: 2px solid #000000;
+  cursor: pointer;
+}
+
+.dcm8-swatch-cell:hover {
+  outline: 2px solid #ffffff;
+  z-index: 2;
+}
+
+.dcm8-swatch-cell.selected {
+  outline: 2px solid #ffea00;
+  border-color: #000000;
+  z-index: 3;
+}
+
+.dcm8-swatch-cell.selected::after {
+  content: '▼';
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 7px;
+  color: #ffea00;
+}
+
+/* Active Color Readout & Custom Mixer Bar */
+.dcm8-active-info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #000000;
+  border: 2px solid #334155;
+  padding: 6px 8px;
+  gap: 8px;
+}
+
+.dcm8-active-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dcm8-preview-block {
+  width: 24px;
+  height: 24px;
+  border: 2px solid #ffffff;
+  flex-shrink: 0;
+  background-color: #d4205e;
+}
+
+.dcm8-preview-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.dcm8-preview-name {
+  font-size: 7px;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dcm8-preview-code {
+  font-size: 6px;
+  color: #ffcc00;
+}
+
+/* Custom Color Picker Input */
+.dcm8-custom-picker-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dcm8-color-input {
+  width: 28px;
+  height: 24px;
+  border: 2px solid #ffffff;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.dcm8-color-input::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.dcm8-color-input::-webkit-color-swatch {
+  border: none;
+}
+
+/* Product & Base Selector */
+.dcm8-product-row {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+}
+
+.dcm8-product-btn {
+  flex: 1;
+  background-color: #0f1d38;
+  color: #94a3b8;
+  border: 2px solid #1e3a6a;
+  font-family: var(--dcm8-font);
+  font-size: 6px;
+  padding: 5px 3px;
+  text-align: center;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dcm8-product-btn:hover {
+  background-color: #1e3a6a;
+  color: #ffffff;
+}
+
+.dcm8-product-btn.active {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+}
+
+/* BIG ARCADE ACTION BUTTON */
+.dcm8-action-bar {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dcm8-btn-action {
+  flex: 1;
+  background-color: #00ff66;
+  color: #000000;
+  border: 3px solid #000000;
+  outline: 2px solid #00ff66;
+  font-family: var(--dcm8-font);
+  font-size: 9px;
+  padding: 10px;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+}
+
+.dcm8-btn-action:hover {
+  background-color: #ffffff;
+  color: #000000;
+  outline-color: #ffffff;
+}
+
+.dcm8-btn-action:active {
+  background-color: #ffcc00;
+  color: #000000;
+  outline-color: #ffcc00;
+}
+
+.dcm8-btn-action:disabled {
+  background-color: #334155;
+  color: #64748b;
+  outline-color: #475569;
+  cursor: not-allowed;
+}
+
+.dcm8-btn-random {
+  background-color: #ff0055;
+  color: #ffffff;
+  border: 2px solid #000000;
+  outline: 1px solid #ff0055;
+  font-family: var(--dcm8-font);
+  font-size: 7px;
+  padding: 10px 8px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.dcm8-btn-random:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Recipe Summary Modal / Popup */
+.dcm8-recipe-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 50;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+.dcm8-recipe-modal.active {
+  display: flex;
+}
+
+.dcm8-modal-card {
+  width: 100%;
+  max-width: 340px;
+  background-color: #0b1528;
+  border: 3px solid #ffffff;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dcm8-modal-title {
+  font-size: 8px;
+  color: #00ff66;
+  text-align: center;
+  border-bottom: 2px solid #1e3a6a;
+  padding-bottom: 6px;
+}
+
+.dcm8-modal-formula-table {
+  background-color: #000000;
+  border: 2px solid #334155;
+  padding: 8px;
+  font-size: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #cbd5e1;
+}
+
+.dcm8-formula-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dcm8-formula-row.highlight {
+  color: #ffdd44;
+}
+
+.dcm8-modal-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.dcm8-btn-modal {
+  flex: 1;
+  background-color: #1e3a6a;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  font-family: var(--dcm8-font);
+  font-size: 6.5px;
+  padding: 8px 4px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.dcm8-btn-modal:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dcm8-btn-modal.primary {
+  background-color: #00ff66;
+  color: #000000;
+  border-color: #000000;
+}
+
+.dcm8-btn-modal.primary:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Toast Message */
+.dcm8-toast {
+  position: absolute;
+  top: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #000000;
+  border: 2px solid #ffea00;
+  color: #ffea00;
+  font-size: 7px;
+  padding: 6px 12px;
+  z-index: 60;
+  display: none;
+  white-space: nowrap;
+}
+
+.dcm8-toast.active {
+  display: block;
+}
+
+/* ==========================================================================
+   EMBEDDED SIMPLE MODE (Modern Manrope UI Left, Machine Right)
+   ========================================================================== */
+.dcm8-game-root.dcm8-simple-mode {
+  max-width: 960px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+  align-items: center;
+  gap: 2.5rem;
+  overflow: visible;
+}
+
+.dcm8-simple-mode .dcm8-control-deck {
+  order: 1;
+  background-color: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 1.65rem;
+  gap: 1.15rem;
+  font-family: 'Manrope', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  image-rendering: auto;
+}
+
+.dcm8-simple-mode .dcm8-control-deck * {
+  font-family: 'Manrope', sans-serif;
+}
+
+.dcm8-simple-mode .dcm8-stage-wrapper {
+  order: 2;
+  background-color: transparent;
+  border-bottom: none;
+}
+
+.dcm8-simple-mode .dcm8-section-label {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0b5ed7;
+  border-bottom: 1.5px solid #e2e8f0;
+  padding-bottom: 0.65rem;
+}
+
+.dcm8-simple-mode .dcm8-section-label span {
+  color: #0a1e3f;
+}
+
+.dcm8-simple-mode .dcm8-family-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dcm8-simple-mode .dcm8-family-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 9999px;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: background-color 0.16s ease, border-color 0.16s ease, color 0.16s ease;
+}
+
+.dcm8-simple-mode .dcm8-family-tab:hover {
+  border-color: #94a3b8;
+  background-color: #ffffff;
+}
+
+.dcm8-simple-mode .dcm8-family-tab.active {
+  background-color: #0b5ed7;
+  border-color: #0b5ed7;
+  color: #ffffff;
+}
+
+.dcm8-simple-mode .dcm8-family-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(15, 23, 42, 0.18);
+  flex-shrink: 0;
+}
+
+.dcm8-simple-mode .dcm8-palette-grid {
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 10px;
+  gap: 6px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  max-height: 196px;
+  overflow-y: auto;
+}
+
+.dcm8-simple-mode .dcm8-swatch-cell {
+  border-radius: 8px;
+  border: 1.5px solid rgba(15, 23, 42, 0.12);
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.dcm8-simple-mode .dcm8-swatch-cell:hover {
+  outline: none;
+  transform: scale(1.08);
+  border-color: #0f172a;
+}
+
+.dcm8-simple-mode .dcm8-swatch-cell.selected {
+  outline: 2.5px solid #0b5ed7;
+  outline-offset: 2px;
+  border-color: #ffffff;
+}
+
+.dcm8-simple-mode .dcm8-swatch-cell.selected::after {
+  content: none;
+}
+
+.dcm8-simple-mode .dcm8-active-info-bar {
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 0.75rem 0.95rem;
+  gap: 0.85rem;
+}
+
+.dcm8-simple-mode .dcm8-preview-block {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(15, 23, 42, 0.14);
+}
+
+.dcm8-simple-mode .dcm8-preview-meta {
+  gap: 2px;
+}
+
+.dcm8-simple-mode .dcm8-preview-name {
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.dcm8-simple-mode .dcm8-preview-code {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.dcm8-simple-mode .dcm8-color-input {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  border: 1.5px solid #cbd5e1;
+  overflow: hidden;
+}
+
+.dcm8-simple-mode .dcm8-action-bar {
+  gap: 0.75rem;
+}
+
+.dcm8-simple-mode .dcm8-btn-action {
+  background-color: #0b5ed7;
+  color: #ffffff;
+  border: 1.5px solid #0b5ed7;
+  outline: none;
+  border-radius: 12px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  padding: 0.85rem 1.2rem;
+  letter-spacing: 0.01em;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dcm8-simple-mode .dcm8-btn-action:hover {
+  background-color: #094eb5;
+  border-color: #094eb5;
+  color: #ffffff;
+  outline: none;
+}
+
+.dcm8-simple-mode .dcm8-btn-action:disabled {
+  background-color: #94a3b8;
+  border-color: #94a3b8;
+  color: #ffffff;
+  outline: none;
+}
+
+.dcm8-simple-mode .dcm8-btn-random {
+  background-color: #ffffff;
+  color: #0f172a;
+  border: 1.5px solid #cbd5e1;
+  outline: none;
+  border-radius: 12px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 0.85rem 1.1rem;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.dcm8-simple-mode .dcm8-btn-random:hover {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+}
+
+@media (max-width: 768px) {
+  .dcm8-game-root.dcm8-simple-mode {
+    grid-template-columns: 1fr;
+    max-width: 460px;
+    gap: 1.5rem;
+  }
+  .dcm8-simple-mode .dcm8-stage-wrapper {
+    order: 1;
+  }
+  .dcm8-simple-mode .dcm8-control-deck {
+    order: 2;
+    padding: 1.25rem;
+  }
+  .dcm8-simple-mode .dcm8-palette-grid {
+    gap: 6px;
+  }
+}

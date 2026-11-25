@@ -1,0 +1,5 @@
+*.psd
+*.psb
+*.ai
+.DS_Store
+Thumbs.db

@@ -1,0 +1,4797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diamond Color Matic (DCM) - Pakistan's No.1 Paint</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="components/dcm-8bit-game.css">
+  
+  <style>
+    /* CSS Reset & Design Tokens - Flat, Zero Shadows, Zero Glows */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --font-display: 'Manrope', sans-serif;
+      --font-body: 'Manrope', sans-serif;
+      
+      --bg-white: #ffffff;
+      --bg-subtle: #f8fafc;
+      
+      /* Primary Brand Colors */
+      --primary-blue: #0b5ed7;
+      --primary-blue-hover: #094eb5;
+      --primary-navy: #0a1e3f;
+      
+      /* Light Theme Text Colors */
+      --text-heading: #0f172a;
+      --text-body: #475569;
+      --text-muted: #64748b;
+      
+      /* Crisp Flat Borders (Strictly No Shadows, No Glows) */
+      --border-color: #e2e8f0;
+      --border-hover: #cbd5e1;
+
+      /* Unified Section Vertical Spacing */
+      --section-pad-y: 4rem;
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --section-pad-y: 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      :root {
+        --section-pad-y: 2.5rem;
+      }
+    }
+
+    body {
+      background-color: var(--bg-white);
+      font-family: var(--font-body);
+      color: var(--text-body);
+      overflow-x: clip;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Main Hero Section: Navy Blue (Top) to Light Blue (Bottom) Gradient */
+    .hero-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 600px;
+      max-height: 100vh;
+      background: linear-gradient(180deg, #071f54 0%, #0d3b91 32%, #2268d8 60%, #76adfc 84%, #d4e6fd 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: clamp(0.25rem, 0.8vh, 0.65rem) 1.5rem clamp(0.4rem, 1vh, 0.85rem);
+      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    /* Infinite Slide Image Marquee: HERO-SLIDE-2.png behind kiosk */
+    .hero-marquee-wrapper {
+      position: absolute;
+      top: 27%;
+      left: 0;
+      width: 100%;
+      transform: translateY(-50%);
+      overflow: hidden;
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+      user-select: none;
+    }
+
+    .hero-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: heroMarqueeSlow 45s linear infinite;
+      will-change: transform;
+    }
+
+    @keyframes heroMarqueeSlow {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    .hero-marquee-group {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+    }
+
+    .hero-slide-img {
+      height: clamp(220px, 36vh, 360px);
+      width: auto;
+      object-fit: contain;
+      display: block;
+      opacity: 0.15;
+      filter: none !important;
+      box-shadow: none !important;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .container {
+      max-width: 1400px;
+      width: 100%;
+      height: 100%;
+      max-height: 100%;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: clamp(0.35rem, 1vh, 0.8rem);
+      z-index: 1;
+    }
+
+    /* CENTERPIECE STAGE: Center Kiosk with Product Slider Pausing in Cavity */
+    .centerpiece-stage {
+      position: relative;
+      width: 100%;
+      flex: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+    }
+
+    /* KIOSK WRAPPER: Matches Kiosk Dimensions */
+    .kiosk-wrapper {
+      position: relative;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      max-width: 100%;
+      z-index: 1;
+    }
+
+    /* Kiosk PNG Image in Center: Much larger, filling the hero proportionally */
+    .kiosk-img {
+      position: relative;
+      max-width: 100%;
+      height: clamp(440px, 71vh, 750px);
+      width: auto;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      filter: none !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+
+    /* INFINITE PRODUCT CAROUSEL OVERLAY
+       Positioned directly across the machine, aligned with the empty dispensing cavity */
+    .machine-slider-wrapper {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 100%;
+      z-index: 10;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    /* The empty cavity inside the machine is located between 50.8% and 88.0% of the kiosk height.
+       This viewport aligns the products right on the shelf inside that empty space! */
+    .slider-viewport {
+      position: absolute;
+      top: 50.8%;
+      height: 37.2%;
+      width: 100%;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .slider-track {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      will-change: transform;
+    }
+
+    .product-slide {
+      flex-shrink: 0;
+      width: clamp(210px, 18vw, 270px);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 2px;
+      opacity: 0.35;
+      transform: scale(0.82);
+      transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+      user-select: none;
+    }
+
+    /* The active product pauses directly in the center empty cavity of the machine */
+    .product-slide.active {
+      opacity: 1;
+      transform: scale(0.96);
+      z-index: 5;
+    }
+
+    .product-slide.adjacent {
+      opacity: 0.6;
+      transform: scale(0.88);
+    }
+
+    /* All product images sized equally: trimmed slightly for perfect cavity balance */
+    .product-slide-img {
+      height: 75%;
+      max-width: 125px;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: none !important;
+      box-shadow: none !important;
+      pointer-events: none;
+    }
+
+
+    /* BOTTOM CONTROLS & FEATURES */
+    .hero-footer {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(0.35rem, 0.9vh, 0.75rem);
+      width: 100%;
+      margin-top: 0;
+      flex-shrink: 0;
+    }
+
+    /* Action Buttons: Clean Flat Styling, Strictly NO Drop Shadow, NO Glow */
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(0.75rem, 1.2vw, 1.1rem);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: clamp(0.65rem, 1.15vh, 0.88rem) clamp(1.4rem, 1.8vw, 2.1rem);
+      font-family: var(--font-body);
+      font-size: clamp(0.88rem, 0.95vw, 0.96rem);
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: none !important;
+      filter: none !important;
+      text-shadow: none !important;
+      transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Primary Button: Solid Diamond Blue Flat */
+    .btn-primary {
+      background-color: var(--primary-blue);
+      color: #ffffff;
+      border: 1px solid var(--primary-blue);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-blue-hover);
+      border-color: var(--primary-blue-hover);
+    }
+
+    .btn-primary:active {
+      background-color: #073c8c;
+      border-color: #073c8c;
+    }
+
+    /* Secondary Button: Clean Crisp Outline Flat */
+    .btn-secondary {
+      background-color: #ffffff;
+      color: var(--text-heading);
+      border: 1.5px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-subtle);
+      border-color: var(--border-hover);
+      color: var(--primary-blue);
+    }
+
+    .btn-secondary:active {
+      background-color: #e2e8f0;
+    }
+
+    .btn-icon {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-primary:hover .btn-icon {
+      transform: translateX(3px);
+    }
+
+    /* Key Specs Metric Pill Bar: Flat Border, No Shadow, No Glow */
+    .hero-features {
+      display: inline-flex;
+      align-items: center;
+      gap: clamp(1.2rem, 2vw, 2.25rem);
+      padding: clamp(0.5rem, 0.9vh, 0.75rem) clamp(1.4rem, 2vw, 2.25rem);
+      background-color: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 9999px;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .feature-divider {
+      width: 1px;
+      height: clamp(20px, 2.8vh, 28px);
+      background-color: var(--border-color);
+    }
+
+    .feature-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.1rem;
+      text-align: center;
+    }
+
+    .feature-value {
+      font-family: var(--font-display);
+      font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+      font-weight: 700;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+    }
+
+    .feature-value .accent-num {
+      color: var(--primary-blue);
+    }
+
+    .feature-label {
+      font-size: clamp(0.68rem, 0.8vw, 0.74rem);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .hero-wrapper {
+        height: auto;
+        min-height: 100vh;
+        max-height: none;
+        padding: 2.5rem 1rem 3rem;
+      }
+      .container {
+        height: auto;
+        justify-content: flex-start;
+      }
+      .centerpiece-stage {
+        flex: none;
+        margin: 1.5rem 0 2rem;
+      }
+      .kiosk-img {
+        height: auto;
+        max-height: 440px;
+      }
+      .product-slide {
+        width: 210px;
+      }
+      .product-slide-img {
+        max-width: 95px;
+      }
+      .hero-footer {
+        margin-top: 1.5rem;
+        gap: 1.25rem;
+      }
+      .hero-features {
+        gap: 1.5rem;
+        padding: 0.85rem 1.75rem;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .hero-wrapper {
+        padding: 1.5rem 0.5rem 2.5rem;
+      }
+      /* Enlarged kiosk for mobile view: expansive hero display */
+      .kiosk-img {
+        width: 96vw;
+        max-width: 460px;
+        max-height: 700px;
+      }
+      /* Adjusted product size and spacing to match enlarged cavity */
+      .product-slide {
+        width: 220px;
+      }
+      .product-slide-img {
+        max-width: 125px;
+        height: 86%;
+      }
+      .hero-actions {
+        width: 100%;
+        max-width: 320px;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .btn {
+        width: 100%;
+        max-width: 320px;
+        font-size: 0.88rem;
+        padding: 0.75rem 1.4rem;
+      }
+      .hero-features {
+        flex-direction: column;
+        border-radius: 16px;
+        gap: 0.85rem;
+        width: 100%;
+        max-width: 320px;
+        padding: 1.15rem 1rem;
+      }
+      .feature-value {
+        font-size: 1.05rem;
+      }
+      .feature-label {
+        font-size: 0.66rem;
+      }
+      .feature-divider {
+        width: 50px;
+        height: 1px;
+      }
+    }
+
+    /* =========================================================
+       SCROLL TEXT REVEAL SECTION (ABOUT DCM)
+       ========================================================= */
+    .about-scroll-section {
+      position: relative;
+      width: 100%;
+      min-height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--section-pad-y) 1.5rem;
+      background: radial-gradient(circle at 50% 45%, #ffffff 0%, #f8fafc 100%);
+      border-top: 1px solid var(--border-color);
+    }
+
+    .about-container {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+    }
+
+    .about-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.45rem 1.15rem;
+      background-color: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-blue);
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .about-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--primary-blue);
+    }
+
+    .about-reveal-text {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 1.65vw, 1.35rem);
+      font-weight: 500;
+      line-height: 1.75;
+      color: var(--text-heading);
+      text-wrap: balance;
+      user-select: none;
+    }
+
+    .reveal-word {
+      display: inline-block;
+      margin-right: 0.28em;
+      filter: blur(8px);
+      opacity: 0.2;
+      transform: translateY(4px);
+      color: #94a3b8;
+      will-change: filter, opacity, transform, color;
+      transition: color 0.18s ease;
+    }
+
+    @media (max-width: 768px) {
+      .about-scroll-section {
+        min-height: auto;
+        padding: var(--section-pad-y) 1.25rem;
+      }
+      .about-container {
+        gap: 1.15rem;
+      }
+      .about-badge {
+        font-size: 0.72rem;
+        padding: 0.35rem 0.95rem;
+        letter-spacing: 0.06em;
+      }
+      .about-reveal-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .about-scroll-section {
+        padding: var(--section-pad-y) 1rem;
+      }
+      .about-container {
+        gap: 0.95rem;
+      }
+      .about-badge {
+        font-size: 0.68rem;
+        padding: 0.3rem 0.85rem;
+      }
+      .about-reveal-text {
+        font-size: 0.86rem;
+        line-height: 1.55;
+      }
+    }
+
+    /* =========================================================
+       HOW DCM WORKS - PINNED STAGE STACKING CARDS
+       Exact architecture from DP App Vis Webpage
+       ========================================================= */
+    .how-it-works-section {
+      position: relative;
+      height: 420vh;
+      background: var(--bg-white);
+      padding: var(--section-pad-y) 0;
+      overflow: visible;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .process-sticky-stage {
+      position: sticky;
+      top: 25px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 0;
+      box-sizing: border-box;
+      z-index: 5;
+    }
+
+    .how-it-works-container {
+      max-width: 1140px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: auto;
+      max-height: none;
+    }
+
+    .how-header {
+      text-align: center;
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto 1.2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .how-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.38rem 1.05rem;
+      background-color: var(--bg-subtle);
+      border: 1.5px solid var(--border-color);
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-blue);
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .how-title-img-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 0.1rem 0;
+    }
+
+    .how-title-img {
+      max-width: clamp(260px, 42vw, 520px);
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      filter: none !important;
+      box-shadow: none !important;
+    }
+
+    .how-subtitle {
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: var(--text-body);
+      max-width: 660px;
+    }
+
+    /* Stacking Cards Grid Stack */
+    .process-cards-stack {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      width: 100%;
+      max-width: 1140px;
+      min-height: 590px;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Individual Card - Occupies Exact Same Cell (grid-area: 1 / 1) */
+    .stacked-card {
+      grid-area: 1 / 1;
+      width: 100%;
+      background-color: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 28px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.05fr 1.35fr;
+      min-height: 500px;
+      box-shadow: none !important;
+      filter: none !important;
+      text-shadow: none !important;
+      transform-origin: center center;
+      will-change: transform;
+      margin: 0;
+      top: 0;
+    }
+
+    .stacked-card:nth-child(1) { z-index: 1; }
+    .stacked-card:nth-child(2) { z-index: 2; }
+    .stacked-card:nth-child(3) { z-index: 3; }
+    .stacked-card:nth-child(4) { z-index: 4; }
+
+    /* Left Narrative Column - Pure Spring Gradient & Subtle Tactile Noise */
+    .stacked-card-info {
+      position: relative;
+      padding: 2.25rem 2.8rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.15rem;
+      border-right: 1.5px solid var(--border-color);
+      overflow: hidden;
+      will-change: filter, opacity;
+      transition: filter 0.15s ease-out, opacity 0.15s ease-out;
+    }
+
+    /* Subtle Natural Grain Overlay on Left Column ONLY */
+    .stacked-card-info::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.045;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .stacked-card-info > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* CARD 1: Spring Blossom & Apricot Petal (Left Side Only) */
+    .stacked-card-1 .stacked-card-info {
+      background: linear-gradient(135deg, #fff1f2 0%, #fce7f3 45%, #ffedd5 100%);
+    }
+    .stacked-card-1 .step-pill-tag {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-color: #f472b6;
+      color: #be185d;
+    }
+    .stacked-card-1 .step-point-icon {
+      color: #e11d48;
+    }
+
+    /* CARD 2: Sunlit Daffodil & Warm Primrose Gold (Left Side Only) */
+    .stacked-card-2 .stacked-card-info {
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 45%, #fed7aa 100%);
+    }
+    .stacked-card-2 .step-pill-tag {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-color: #f59e0b;
+      color: #b45309;
+    }
+    .stacked-card-2 .step-point-icon {
+      color: #d97706;
+    }
+
+    /* CARD 3: Fresh Dewy Mint & Meadow Sprout (Left Side Only) */
+    .stacked-card-3 .stacked-card-info {
+      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 45%, #ccfbf1 100%);
+    }
+    .stacked-card-3 .step-pill-tag {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-color: #34d399;
+      color: #047857;
+    }
+    .stacked-card-3 .step-point-icon {
+      color: #059669;
+    }
+
+    /* CARD 4: Crystal Spring Sky & Forget-Me-Not Periwinkle (Left Side Only) */
+    .stacked-card-4 .stacked-card-info {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 45%, #ede9fe 100%);
+    }
+    .stacked-card-4 .step-pill-tag {
+      background-color: rgba(255, 255, 255, 0.9);
+      border-color: #60a5fa;
+      color: #1d4ed8;
+    }
+    .stacked-card-4 .step-point-icon {
+      color: #2563eb;
+    }
+
+    .step-pill-tag {
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+      gap: 0.4rem;
+      padding: 0.32rem 0.82rem;
+      border-radius: 9999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .step-headline {
+      font-family: var(--font-display);
+      font-size: 1.95rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      line-height: 1.3;
+    }
+
+    .step-desc {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #334155;
+    }
+
+    .step-points-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-top: 0.25rem;
+    }
+
+    .step-point-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      font-size: 0.92rem;
+      color: #334155;
+      line-height: 1.5;
+    }
+
+    .step-point-icon {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      margin-top: 2px;
+    }
+
+    /* Right Visual Pane - Solid Clean White (Zero Tint, Zero Noise) */
+    .stacked-card-visual {
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      padding: 3rem 2.5rem;
+      will-change: filter, opacity;
+      transition: filter 0.15s ease-out, opacity 0.15s ease-out;
+    }
+
+    /* -------------------------------------------------------------
+       CARD 1 VISUAL: Pure Red Swatch (No Text)
+       ------------------------------------------------------------- */
+    .pure-swatch-wrapper {
+      width: 100%;
+      max-width: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pure-swatch-tile {
+      width: 100%;
+      height: 340px;
+      border-radius: 18px;
+      background-color: #d72638;
+      border: 1.5px solid var(--border-color);
+      box-shadow: none !important;
+      filter: none !important;
+      transition: background-color 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* -------------------------------------------------------------
+       CARD 2 VISUAL: Diamond Paints Official Fan Deck
+       ------------------------------------------------------------- */
+    .fan-deck-container {
+      width: 100%;
+      max-width: 480px;
+      height: 380px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 25px;
+    }
+
+    .fan-deck-stage {
+      position: relative;
+      width: 100%;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+    }
+
+    .fan-deck-blade {
+      position: absolute;
+      bottom: 25px;
+      width: 108px;
+      height: 270px;
+      background-color: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      transform-origin: 50% 92%;
+      transition: transform 0.85s cubic-bezier(0.25, 1, 0.5, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 8px 8px 30px;
+      gap: 6px;
+      will-change: transform;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .fan-blade-1 { z-index: 1; transform: rotate(0deg); }
+    .fan-blade-2 { z-index: 2; transform: rotate(0deg); }
+    .fan-blade-3 { z-index: 3; transform: rotate(0deg); }
+    .fan-blade-4 { z-index: 4; transform: rotate(0deg); }
+    .fan-blade-5 { z-index: 5; transform: rotate(0deg); }
+
+    .fan-deck-container.open .fan-blade-1 { transform: rotate(-38deg); }
+    .fan-deck-container.open .fan-blade-2 { transform: rotate(-19deg); }
+    .fan-deck-container.open .fan-blade-3 { transform: rotate(0deg); }
+    .fan-deck-container.open .fan-blade-4 { transform: rotate(19deg); }
+    .fan-deck-container.open .fan-blade-5 { transform: rotate(38deg); }
+
+    .blade-color-chip {
+      flex: 1;
+      border-radius: 4px;
+      position: relative;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .chip-match-target {
+      border: 2px solid #ffffff;
+      outline: 2px solid #0f172a;
+    }
+
+    .fan-deck-pivot {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: #cbd5e1;
+      border: 2px solid #64748b;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fan-deck-pivot::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #475569;
+    }
+
+    /* -------------------------------------------------------------
+       CARD 3 VISUAL: DCM Zoom Machine & Live Monitor Screen
+       ------------------------------------------------------------- */
+    .dcm-zoom-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .dcm-zoom-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      filter: none !important;
+      box-shadow: none !important;
+    }
+
+    .dcm-monitor-screen {
+      position: absolute;
+      top: 9.35%;
+      left: 20.3%;
+      width: 55.35%;
+      height: 37.05%;
+      background-color: #0b1329;
+      border-radius: 2px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-body);
+      color: #e2e8f0;
+      padding: 4.5% 5.5% 3.5%;
+      box-sizing: border-box;
+      user-select: none;
+      box-shadow: none !important;
+      filter: none !important;
+    }
+
+    .monitor-os-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+      padding-bottom: 3%;
+      margin-bottom: 3.5%;
+    }
+
+    .monitor-os-title {
+      font-size: clamp(0.55rem, 1vw, 0.7rem);
+      font-weight: 700;
+      color: #38bdf8;
+      letter-spacing: 0.05em;
+    }
+
+    .monitor-os-status {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: clamp(0.5rem, 0.8vw, 0.62rem);
+      color: #4ade80;
+      font-weight: 600;
+    }
+
+    .monitor-os-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #4ade80;
+    }
+
+    .monitor-input-block {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 4px;
+      padding: 2.5% 4%;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 3.5%;
+    }
+
+    .monitor-input-label {
+      font-size: clamp(0.46rem, 0.72vw, 0.56rem);
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .monitor-code-val {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: clamp(0.68rem, 1.15vw, 0.86rem);
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .monitor-typing-cursor {
+      display: inline-block;
+      width: 5px;
+      height: 11px;
+      background-color: #38bdf8;
+      animation: blinkCursor 0.8s infinite;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .monitor-dispense-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 3%;
+      flex: 1;
+      justify-content: center;
+    }
+
+    .monitor-progress-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .monitor-progress-label {
+      font-size: clamp(0.48rem, 0.78vw, 0.6rem);
+      color: #cbd5e1;
+      font-weight: 600;
+    }
+
+    .monitor-progress-pct {
+      font-family: var(--font-display);
+      font-size: clamp(0.55rem, 0.85vw, 0.7rem);
+      font-weight: 700;
+      color: #38bdf8;
+    }
+
+    .monitor-track-bar {
+      width: 100%;
+      height: 6px;
+      background-color: #1e293b;
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .monitor-fill-bar {
+      height: 100%;
+      width: 0%;
+      background-color: #d72638;
+      transition: width 0.1s linear;
+    }
+
+    .monitor-match-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #1e293b;
+      padding-top: 2.5%;
+      margin-top: 2.5%;
+    }
+
+    .monitor-swatch-box {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .monitor-mini-swatch {
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      background-color: #d72638;
+      border: 1px solid #ffffff;
+    }
+
+    .monitor-swatch-text {
+      font-size: clamp(0.46rem, 0.7vw, 0.56rem);
+      color: #94a3b8;
+    }
+
+    .monitor-ready-badge {
+      font-size: clamp(0.46rem, 0.7vw, 0.56rem);
+      font-weight: 700;
+      color: #4ade80;
+      background-color: rgba(74, 222, 128, 0.12);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    /* -------------------------------------------------------------
+       CARD 4 VISUAL: Pure Product Images Slideshow
+       ------------------------------------------------------------- */
+    .product-pure-slideshow {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pure-product-img {
+      max-height: 380px;
+      max-width: 300px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      filter: none !important;
+      box-shadow: none !important;
+      transition: opacity 0.35s ease;
+    }
+
+    /* Responsive Queries for Stacked Cards & How It Works Section */
+    @media (max-width: 900px) {
+      .how-it-works-section {
+        height: 380vh;
+      }
+      .process-sticky-stage {
+        top: 15px;
+        padding: 0;
+      }
+      .how-header {
+        margin-bottom: 0.8rem;
+        gap: 0.4rem;
+      }
+      .how-subtitle {
+        display: none;
+      }
+      .process-cards-stack {
+        min-height: 490px;
+      }
+      .stacked-card {
+        grid-template-columns: 1fr;
+        min-height: 420px;
+        border-radius: 18px;
+      }
+      .stacked-card-info {
+        border-right: none;
+        border-bottom: 1.5px solid var(--border-color);
+        padding: 0.75rem 1.25rem 0.95rem;
+        gap: 0.45rem;
+      }
+      .step-pill-tag {
+        font-size: 0.7rem;
+        padding: 0.22rem 0.65rem;
+      }
+      .step-headline {
+        font-size: 1.15rem;
+        line-height: 1.25;
+      }
+      .step-desc {
+        font-size: 0.82rem;
+        line-height: 1.4;
+      }
+      .step-points-list {
+        display: none;
+      }
+      .stacked-card-visual {
+        background-color: #ffffff;
+        padding: 1.25rem 1rem;
+        min-height: 190px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .how-it-works-section {
+        padding: var(--section-pad-y) 0;
+      }
+      .process-sticky-stage {
+        top: 10px;
+        padding: 0;
+      }
+      .how-header {
+        margin-bottom: 0.6rem;
+        gap: 0.35rem;
+      }
+      .how-badge {
+        font-size: 0.72rem;
+        padding: 0.35rem 0.9rem;
+        letter-spacing: 0.06em;
+      }
+      .how-title-img-wrap,
+      .products-title-img-wrap {
+        margin: 0.35rem 0;
+        width: 100%;
+      }
+      .how-title-img,
+      .products-title-img {
+        width: 100%;
+        max-width: min(100%, 420px);
+        margin: 0 auto;
+      }
+      .how-subtitle {
+        font-size: 0.88rem;
+        line-height: 1.5;
+        padding: 0 0.5rem;
+      }
+      .stacked-card {
+        border-radius: 18px;
+      }
+      .stacked-card-info {
+        padding: 0.75rem 1.25rem 1.35rem;
+        gap: 0.9rem;
+      }
+      .step-pill-tag {
+        font-size: 0.7rem;
+        padding: 0.3rem 0.75rem;
+      }
+      .step-headline {
+        font-size: 1.22rem;
+        line-height: 1.35;
+      }
+      .step-desc {
+        font-size: 0.85rem;
+        line-height: 1.55;
+      }
+      .step-points-list {
+        gap: 0.6rem;
+        margin-top: 0.25rem;
+      }
+      .step-point-item {
+        font-size: 0.8rem;
+        line-height: 1.45;
+        gap: 0.6rem;
+      }
+      .step-point-icon {
+        width: 15px;
+        height: 15px;
+        min-width: 15px;
+      }
+      .stacked-card-visual {
+        background-color: #ffffff;
+        padding: 1.75rem 1.25rem;
+      }
+      .pure-swatch-tile {
+        height: 240px;
+      }
+      .pure-product-img {
+        max-height: 260px;
+        max-width: 220px;
+      }
+      .fan-deck-container {
+        height: 300px;
+      }
+      .fan-deck-blade {
+        width: 90px;
+        height: 220px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .how-it-works-section {
+        padding: var(--section-pad-y) 0;
+      }
+      .how-header {
+        margin-bottom: 1.75rem;
+        gap: 0.6rem;
+      }
+      .how-badge {
+        font-size: 0.68rem;
+        padding: 0.3rem 0.8rem;
+      }
+      .how-subtitle {
+        font-size: 0.82rem;
+        line-height: 1.45;
+      }
+      .stacked-card-info {
+        padding: 0.65rem 1rem 1.15rem;
+        gap: 0.75rem;
+      }
+      .step-pill-tag {
+        font-size: 0.66rem;
+        padding: 0.25rem 0.65rem;
+      }
+      .step-headline {
+        font-size: 1.12rem;
+        line-height: 1.35;
+      }
+      .step-desc {
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+      .step-points-list {
+        gap: 0.5rem;
+      }
+      .step-point-item {
+        font-size: 0.76rem;
+        line-height: 1.4;
+        gap: 0.5rem;
+      }
+      .step-point-icon {
+        width: 14px;
+        height: 14px;
+        min-width: 14px;
+      }
+      .stacked-card-visual {
+        background-color: #ffffff;
+        padding: 1.35rem 0.85rem;
+      }
+    }
+
+    /* =========================================================
+       PRODUCTS AVAILABLE IN DCM - 2-ROW SCROLL-DRIVEN LAYOUT
+       ========================================================= */
+    .dcm-products-section {
+      position: relative;
+      height: auto;
+      background-color: var(--bg-white);
+      padding: var(--section-pad-y) 1.5rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .dcm-products-sticky-stage {
+      position: relative;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .dcm-products-header {
+      text-align: center;
+      width: 100%;
+      max-width: 820px;
+      margin: 0 auto 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .products-title-img-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 0.1rem 0;
+    }
+
+    .products-title-img {
+      max-width: clamp(260px, 42vw, 520px);
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      filter: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Two-Row Products Layout */
+    .products-rows-wrap {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(1.5rem, 3vw, 2.5rem);
+    }
+
+    .products-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      align-items: center;
+      justify-items: center;
+      gap: clamp(1rem, 2.5vw, 2rem);
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* Pure Product Item - COMPACT & BALANCED SCALE */
+    .pure-product-item {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.25s ease;
+    }
+
+    .pure-product-can-img {
+      height: clamp(170px, 22vh, 230px);
+      max-width: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+      filter: none;
+      transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    .pure-product-item:hover .pure-product-can-img {
+      transform: scale(1.06) translateY(-6px);
+      filter: none;
+    }
+
+    @media (max-width: 900px) {
+      .dcm-products-section {
+        height: auto;
+        padding: var(--section-pad-y) 1.25rem;
+      }
+      .dcm-products-header {
+        margin-bottom: 1.5rem;
+      }
+      .products-title-img-wrap {
+        margin: 0.35rem 0;
+        width: 100%;
+      }
+      .products-title-img {
+        width: 100%;
+        max-width: min(100%, 420px);
+        margin: 0 auto;
+      }
+      .products-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.25rem 1rem;
+      }
+      .pure-product-item {
+        flex: 0 1 calc(33.333% - 1rem);
+        min-width: 100px;
+      }
+      .pure-product-can-img {
+        height: clamp(140px, 20vh, 185px);
+        max-width: 150px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dcm-products-section {
+        padding: var(--section-pad-y) 1rem;
+      }
+      .pure-product-item {
+        flex: 0 1 calc(50% - 0.75rem);
+      }
+    }
+
+    /* =========================================================
+       REGISTERED DCM DEALERS LOCATOR SECTION
+       ========================================================= */
+    .dealers-section {
+      position: relative;
+      width: 100%;
+      background-color: var(--bg-subtle);
+      padding: var(--section-pad-y) 1.5rem;
+    }
+
+    .dealers-container {
+      max-width: 1020px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dealers-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .dealers-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.42rem 1.1rem;
+      background-color: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 9999px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-blue);
+    }
+
+    .dealers-badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--primary-blue);
+    }
+
+    .dealers-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+      font-weight: 800;
+      color: var(--primary-navy);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .dealers-note {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--text-muted);
+    }
+
+    /* Clean Map + Selector Layout (No extra boxes) */
+    .dealers-map-stage {
+      position: relative;
+      width: 100%;
+      max-width: 620px;
+      margin: 0 auto 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .pakistan-map-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .pk-land {
+      fill: #ffffff;
+      stroke: #cbd5e1;
+      stroke-width: 2;
+      stroke-linejoin: round;
+    }
+
+    .pk-province-line {
+      fill: none;
+      stroke: #e2e8f0;
+      stroke-width: 1.2;
+      stroke-dasharray: 4 3;
+      pointer-events: none;
+    }
+
+    .pk-kashmir {
+      fill: #f8fafc;
+      stroke: #cbd5e1;
+      stroke-width: 1.8;
+      stroke-dasharray: 5 3;
+      stroke-linejoin: round;
+    }
+
+    .pk-region-label {
+      font-family: var(--font-body);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      fill: #94a3b8;
+      pointer-events: none;
+    }
+
+    .pk-city-dot-group {
+      cursor: pointer;
+    }
+
+    .pk-city-pulse {
+      fill: rgba(220, 38, 38, 0.22);
+      opacity: 0;
+      transform-box: fill-box;
+      transform-origin: center;
+      pointer-events: none;
+    }
+
+    .pk-city-dot-group.is-active .pk-city-pulse {
+      opacity: 1;
+      animation: pkPulse 1.8s ease-out infinite;
+    }
+
+    @keyframes pkPulse {
+      0% { transform: scale(1); opacity: 0.7; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    .pk-city-dot {
+      fill: #dc2626;
+      stroke: #ffffff;
+      stroke-width: 2;
+      transition: transform 0.18s ease, fill 0.18s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+
+    .pk-city-dot-group:hover .pk-city-dot,
+    .pk-city-dot-group:focus-visible .pk-city-dot,
+    .pk-city-dot-group.is-active .pk-city-dot {
+      fill: #b91c1c;
+      transform: scale(1.35);
+    }
+
+    .pk-city-hitarea {
+      fill: transparent;
+    }
+
+    .pk-city-label {
+      font-family: var(--font-body);
+      font-size: 9.5px;
+      font-weight: 700;
+      fill: var(--primary-navy);
+      pointer-events: none;
+      opacity: 0.82;
+      transition: opacity 0.18s ease, fill 0.18s ease;
+    }
+
+    .pk-city-dot-group:hover .pk-city-label,
+    .pk-city-dot-group.is-active .pk-city-label {
+      opacity: 1;
+      fill: #dc2626;
+    }
+
+    .pk-map-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background-color: var(--primary-navy);
+      color: #ffffff;
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translate(-50%, -120%);
+      transition: opacity 0.15s ease;
+      z-index: 10;
+    }
+
+    .pk-map-tooltip.visible {
+      opacity: 1;
+    }
+
+    .dealers-controls-bar {
+      width: 100%;
+      max-width: 780px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .dealers-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-heading);
+      white-space: nowrap;
+    }
+
+    .dealers-required {
+      color: #dc2626;
+      margin-left: 2px;
+    }
+
+    .dealers-select-wrap {
+      position: relative;
+      flex: 1 1 260px;
+    }
+
+    .dealers-select {
+      width: 100%;
+      appearance: none;
+      -webkit-appearance: none;
+      background-color: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.78rem 2.5rem 0.78rem 1rem;
+      font-family: var(--font-body);
+      font-size: 0.94rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      cursor: pointer;
+      transition: border-color 0.2s ease;
+    }
+
+    .dealers-count-pill {
+      display: none;
+      align-items: center;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background-color: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--primary-blue);
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .dealers-count-pill.visible {
+      display: inline-flex;
+    }
+
+    .dealers-select:hover {
+      border-color: var(--border-hover);
+    }
+
+    .dealers-select:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      background-color: #ffffff;
+    }
+
+    .dealers-select-chevron {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+    }
+
+    .dealers-accordions {
+      width: 100%;
+      max-width: 780px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .dealers-empty-hint {
+      width: 100%;
+      text-align: center;
+      padding: 1.5rem 1.25rem;
+      background-color: #ffffff;
+      border: 1.5px dashed var(--border-color);
+      border-radius: 16px;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+
+    .dealer-accordion-item {
+      width: 100%;
+      background-color: #ffffff;
+      border: 1.5px solid var(--border-color);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.2s ease;
+    }
+
+    .dealer-accordion-item.is-open {
+      border-color: #93c5fd;
+    }
+
+    .dealer-accordion-header {
+      width: 100%;
+      background-color: #ffffff;
+      border: none;
+      padding: 1.05rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      text-align: left;
+      cursor: pointer;
+      font-family: var(--font-body);
+      transition: background-color 0.2s ease;
+    }
+
+    .dealer-accordion-header:hover {
+      background-color: var(--bg-subtle);
+    }
+
+    .dealer-accordion-header.active {
+      background-color: #eff6ff;
+    }
+
+    .dealer-name {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--primary-navy);
+      line-height: 1.35;
+    }
+
+    .dealer-accordion-header.active .dealer-name {
+      color: var(--primary-blue);
+    }
+
+    .dealer-toggle-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      flex-shrink: 0;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .dealer-chevron-icon {
+      width: 16px;
+      height: 16px;
+      transition: transform 0.22s ease;
+    }
+
+    .dealer-accordion-header.active .dealer-chevron-icon {
+      transform: rotate(180deg);
+      color: var(--primary-blue);
+    }
+
+    .dealer-accordion-content {
+      display: none;
+      padding: 0.95rem 1.25rem 1.15rem;
+      border-top: 1px solid var(--border-color);
+      background-color: #ffffff;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .dealer-accordion-item.is-open .dealer-accordion-content {
+      display: flex;
+    }
+
+    .dealer-detail-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: var(--text-body);
+    }
+
+    .dealer-detail-icon {
+      flex-shrink: 0;
+      margin-top: 2px;
+      color: var(--primary-blue);
+    }
+
+    .dealer-detail-link {
+      color: var(--text-heading);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.18s ease;
+      word-break: break-word;
+    }
+
+    .dealer-detail-link:hover {
+      color: var(--primary-blue);
+      text-decoration: underline;
+    }
+
+    .dealer-detail-text {
+      color: var(--text-heading);
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    @media (max-width: 768px) {
+      .dealers-section {
+        padding: var(--section-pad-y) 1.25rem;
+      }
+      .dealers-selector-card {
+        padding: 1.15rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .pk-city-dot {
+        transform: scale(1.25);
+      }
+      .pk-city-dot-group:hover .pk-city-dot,
+      .pk-city-dot-group:focus-visible .pk-city-dot,
+      .pk-city-dot-group.is-active .pk-city-dot {
+        transform: scale(1.55);
+      }
+      .pk-city-label {
+        font-size: 11px;
+      }
+      .dealers-select {
+        min-height: 48px;
+        font-size: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dealers-section {
+        padding: var(--section-pad-y) 1rem;
+      }
+      .dealer-accordion-header {
+        padding: 0.9rem 1rem;
+      }
+      .dealer-toggle-text {
+        display: none;
+      }
+      .dealer-accordion-content {
+        padding: 0.85rem 1rem 1rem;
+      }
+    }
+
+    /* =========================================================
+       BROWSE BY COLOR FAMILIES SECTION (#colors)
+       ========================================================= */
+    .color-families-section {
+      position: relative;
+      width: 100%;
+      background-color: var(--bg-white);
+      padding: var(--section-pad-y) 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .color-families-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .color-families-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2.25rem;
+    }
+
+    .color-families-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+      font-weight: 800;
+      color: var(--primary-navy);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .color-families-list {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .color-family-item {
+      width: 100%;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1.5px solid var(--border-color);
+      background-color: #ffffff;
+    }
+
+    .color-family-head {
+      width: 100%;
+      border: none;
+      padding: 1.15rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      text-align: left;
+      transition: filter 0.18s ease;
+    }
+
+    .color-family-head:hover {
+      filter: brightness(0.96);
+    }
+
+    .color-family-left {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .color-family-toggle-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid currentColor;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      font-weight: 700;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .color-family-title {
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      font-weight: 800;
+      letter-spacing: -0.01em;
+    }
+
+    .color-family-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      opacity: 0.95;
+      white-space: nowrap;
+    }
+
+    .color-family-panel {
+      display: none;
+      padding: 1.25rem;
+      background-color: #ffffff;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .color-family-item.is-open .color-family-panel {
+      display: block;
+    }
+
+    .color-swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 0.55rem;
+    }
+
+    .color-swatch-card {
+      position: relative;
+      border-radius: 10px;
+      padding: 0.7rem 0.6rem;
+      min-height: 78px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 0.15rem;
+      cursor: pointer;
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      transition: transform 0.16s ease, border-color 0.16s ease;
+      text-align: left;
+      font-family: var(--font-body);
+    }
+
+    .color-swatch-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(15, 23, 42, 0.3);
+      z-index: 2;
+    }
+
+    .color-swatch-name {
+      font-size: 0.74rem;
+      font-weight: 700;
+      line-height: 1.2;
+      word-break: break-word;
+    }
+
+    .color-swatch-code {
+      font-size: 0.68rem;
+      font-weight: 600;
+      opacity: 0.85;
+      letter-spacing: 0.02em;
+    }
+
+    .color-swatch-copied {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background-color: rgba(15, 23, 42, 0.86);
+      color: #ffffff;
+      font-size: 0.64rem;
+      font-weight: 700;
+      padding: 0.15rem 0.42rem;
+      border-radius: 9999px;
+      pointer-events: none;
+    }
+
+    @media (max-width: 1024px) {
+      .color-swatches-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .color-families-section {
+        padding: var(--section-pad-y) 1.25rem;
+      }
+      .color-swatches-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .color-families-section {
+        padding: var(--section-pad-y) 1rem;
+      }
+      .color-family-head {
+        padding: 0.95rem 1rem;
+      }
+      .color-family-cta {
+        font-size: 0.78rem;
+      }
+      .color-family-panel {
+        padding: 0.85rem;
+      }
+      .color-swatches-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* =========================================================
+       INTERACTIVE DCM EXPERIENCE SECTION (#dcm-experience)
+       ========================================================= */
+    .dcm-experience-section {
+      position: relative;
+      width: 100%;
+      background-color: var(--bg-subtle);
+      padding: var(--section-pad-y) 1.5rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .dcm-experience-container {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dcm-experience-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 2rem;
+    }
+
+    .dcm-experience-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+      font-weight: 800;
+      color: var(--primary-navy);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+    }
+
+    .dcm-experience-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-body);
+      max-width: 540px;
+      line-height: 1.55;
+    }
+
+    .dcm-experience-stage {
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 768px) {
+      .dcm-experience-section {
+        padding: var(--section-pad-y) 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .dcm-experience-section {
+        padding: var(--section-pad-y) 1rem;
+      }
+    }
+
+    /* =========================================================
+       NAVY BLUE INFINITE MARQUEE CTA SECTION
+       ========================================================= */
+    .retailer-marquee-section {
+      position: relative;
+      width: 100%;
+      background-color: #071f54;
+      padding: clamp(1rem, 2.2vw, 1.6rem) 0;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    .retailer-marquee-track {
+      display: flex;
+      width: max-content;
+      animation: retailerMarqueeLoop 28s linear infinite;
+      will-change: transform;
+    }
+
+    .retailer-marquee-section:hover .retailer-marquee-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes retailerMarqueeLoop {
+      0% {
+        transform: translate3d(0, 0, 0);
+      }
+      100% {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    .retailer-marquee-group {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+    }
+
+    .retailer-marquee-img {
+      height: clamp(38px, 5.5vw, 72px);
+      width: auto;
+      max-width: none;
+      display: block;
+      flex-shrink: 0;
+      padding-right: clamp(2rem, 5vw, 4rem);
+      filter: none !important;
+      box-shadow: none !important;
+    }
+
+    /* =========================================================
+       DOWNLOAD DCM SHADE CARD CTA SECTION
+       Split Half-White / Half-Blue-Gradient with Pop-Out PNG
+       ========================================================= */
+    .shade-card-cta-section {
+      position: relative;
+      width: 100%;
+      background-color: #ffffff;
+      padding: clamp(9rem, 15vw, 13.5rem) 1.5rem var(--section-pad-y);
+      overflow: visible;
+    }
+
+    .shade-card-cta-container {
+      position: relative;
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, #071f54 0%, #0d3b91 52%, #2268d8 100%);
+      border-radius: 28px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: end;
+      gap: clamp(1.5rem, 3.5vw, 3rem);
+      padding: 0 clamp(1.75rem, 4.5vw, 4rem);
+    }
+
+    .shade-card-cta-content {
+      position: relative;
+      z-index: 2;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+      gap: 1.25rem;
+      padding: 2.25rem 0;
+    }
+
+    .shade-card-cta-heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.85rem, 3.4vw, 2.85rem);
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .shade-card-download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      background-color: #ffffff;
+      color: #071f54;
+      border: 1.5px solid #ffffff;
+      border-radius: 12px;
+      padding: 0.9rem 1.85rem;
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .shade-card-download-btn:hover {
+      background-color: #d4e6fd;
+      border-color: #d4e6fd;
+      color: #071f54;
+    }
+
+    .shade-card-cta-media {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      margin-top: clamp(-240px, -18vw, -150px);
+    }
+
+    .shade-card-cta-img {
+      width: 100%;
+      max-width: 340px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    @media (max-width: 820px) {
+      .shade-card-cta-section {
+        padding: var(--section-pad-y) 1.25rem;
+      }
+      .shade-card-cta-container {
+        grid-template-columns: 1fr;
+        background: none;
+        border-radius: 0;
+        padding: 0;
+        gap: 1.75rem;
+      }
+      .shade-card-cta-content {
+        align-items: center;
+        text-align: center;
+        padding: 0;
+        gap: 1rem;
+      }
+      .shade-card-cta-heading {
+        color: var(--primary-navy);
+      }
+      .shade-card-download-btn {
+        background-color: var(--primary-blue);
+        border-color: var(--primary-blue);
+        color: #ffffff;
+      }
+      .shade-card-download-btn:hover {
+        background-color: var(--primary-blue-hover);
+        border-color: var(--primary-blue-hover);
+        color: #ffffff;
+      }
+      .shade-card-cta-media {
+        margin-top: 0;
+        width: 100%;
+        padding: 0 1rem;
+      }
+      .shade-card-cta-media::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 52%;
+        background: linear-gradient(135deg, #071f54 0%, #0d3b91 52%, #2268d8 100%);
+        border-radius: 22px;
+        z-index: 0;
+      }
+      .shade-card-cta-img {
+        position: relative;
+        z-index: 1;
+        max-width: 280px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .shade-card-cta-section {
+        padding: var(--section-pad-y) 1rem;
+      }
+      .shade-card-download-btn {
+        width: 100%;
+        max-width: 300px;
+      }
+      .shade-card-cta-img {
+        max-width: 240px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO SECTION -->
+  <section class="hero-wrapper" aria-label="Diamond Color Matic Hero">
+    <!-- Infinite Slow Image Slide: HERO-SLIDE-2.png behind kiosk machine -->
+    <div class="hero-marquee-wrapper" aria-hidden="true">
+      <div class="hero-marquee-track">
+        <div class="hero-marquee-group">
+          <img src="HERO-SLIDE-2.png" alt="" class="hero-slide-img" />
+          <img src="HERO-SLIDE-2.png" alt="" class="hero-slide-img" />
+        </div>
+        <div class="hero-marquee-group" aria-hidden="true">
+          <img src="HERO-SLIDE-2.png" alt="" class="hero-slide-img" />
+          <img src="HERO-SLIDE-2.png" alt="" class="hero-slide-img" />
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      
+      <!-- CENTERPIECE STAGE: Center Kiosk with Product Slider Pausing in Cavity -->
+      <div class="centerpiece-stage">
+        
+        <!-- Kiosk Machine & Aligned Carousel -->
+        <div class="kiosk-wrapper">
+          <img 
+            src="Diamond-Color-Matic-Kiosk.png" 
+            alt="Diamond ColorMatic tinting machine unit displaying custom paint container"
+            class="kiosk-img"
+            loading="eager"
+          />
+
+          <!-- Infinite Product Carousel Slider passing directly through the empty cavity -->
+          <div class="machine-slider-wrapper">
+            <div class="slider-viewport">
+              <div class="slider-track" id="productSliderTrack"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM FOOTER: Action Buttons & Key Metrics -->
+      <footer class="hero-footer">
+        <!-- Interactive CTA Buttons -->
+        <div class="hero-actions">
+          <a href="#dealers" class="btn btn-primary">
+            <span>Find Your Nearest Dealer</span>
+            <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </a>
+
+          <a href="#colors" class="btn btn-secondary">
+            <span>Browse DCM Colors</span>
+          </a>
+        </div>
+
+        <!-- Metric Highlights -->
+        <div class="hero-features">
+          <div class="feature-item">
+            <div class="feature-value">
+              <span class="accent-num">1,000+</span>
+            </div>
+            <span class="feature-label">Customizable Colors</span>
+          </div>
+
+          <div class="feature-divider"></div>
+
+          <div class="feature-item">
+            <div class="feature-value">
+              <span class="accent-num">45+</span>
+            </div>
+            <span class="feature-label">Cities Covered</span>
+          </div>
+
+          <div class="feature-divider"></div>
+
+          <div class="feature-item">
+            <div class="feature-value">
+              <span class="accent-num">100%</span>
+            </div>
+            <span class="feature-label">Shade Consistency</span>
+          </div>
+        </div>
+      </footer>
+
+    </div>
+  </section>
+
+
+
+  <!-- SCROLL TEXT REVEAL SECTION (ABOUT DCM) -->
+  <section class="about-scroll-section" id="about-dcm" aria-label="About Diamond Color Matic">
+    <div class="container about-container">
+      
+      <div class="about-badge">
+        <span class="about-badge-dot"></span>
+        <span>Next-Gen Tinting Technology</span>
+      </div>
+
+      <p class="about-reveal-text" id="scrollRevealText">
+        <!-- Text will be dynamically populated into blur-reveal spans -->
+      </p>
+
+    </div>
+  </section>
+
+
+
+  <!-- HOW DCM WORKS - 4 CARDS STACKED ANIMATION -->
+  <section class="how-it-works-section" id="how-it-works" aria-label="How Diamond Color Matic Works">
+    <div class="process-sticky-stage" id="process-sticky-stage">
+      <div class="container how-it-works-container">
+        
+        <!-- Section Header -->
+        <header class="how-header">
+          <h2 class="how-title-img-wrap">
+            <img src="how2.png" alt="How Diamond Color Matic Works" class="how-title-img" />
+          </h2>
+          <p class="how-subtitle">
+            From the exact color shade you fall in love with to the freshly tinted can ready for your walls—discover how our computerized tinting technology creates your perfect paint in minutes.
+          </p>
+        </header>
+
+        <!-- 4 CARDS STACKED CONTAINER -->
+        <div class="process-cards-stack" id="process-cards-stack">
+          
+          <!-- ================= CARD 1: Custom Inspiration ================= -->
+          <article class="stacked-card stacked-card-1" data-stack-index="0" id="card-step-1">
+          <!-- Left Content -->
+          <div class="stacked-card-info">
+            <div class="step-pill-tag">
+              <span>01 / 04</span>
+              <span>&bull;</span>
+              <span>Inspiration</span>
+            </div>
+            <h3 class="step-headline">You Find a Color You Love</h3>
+            <p class="step-desc">
+              Whether you are inspired by interior fabrics, nature, modern architecture, or a custom vision, you have a specific color shade in mind for your home.
+            </p>
+            <div class="step-points-list">
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>No need to settle for standard pre-mixed shelf colors.</span>
+              </div>
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Full creative freedom to select rich, personalized undertones.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Visual: Pure Swatch (No Text) -->
+          <div class="stacked-card-visual">
+            <div class="pure-swatch-wrapper">
+              <div class="pure-swatch-tile" id="mainRedSwatch"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ================= CARD 2: Dealer & Official Fan Deck ================= -->
+        <article class="stacked-card stacked-card-2" data-stack-index="1" id="card-step-2">
+          <!-- Left Content -->
+          <div class="stacked-card-info">
+            <div class="step-pill-tag">
+              <span>02 / 04</span>
+              <span>&bull;</span>
+              <span>Dealer Matching</span>
+            </div>
+            <h3 class="step-headline">Visit Dealer & Match with Official Fan Deck</h3>
+            <p class="step-desc">
+              Visit your nearest registered Diamond Paints dealer across 45+ cities. Explore our Official Fan Deck featuring over 1,000+ certified shades to find and pinpoint your exact color match.
+            </p>
+            <div class="step-points-list">
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Official Fan Deck featuring 1,000+ curated colors across all shade families.</span>
+              </div>
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Standardized swatches ensure reproducible formulations nationwide.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Visual: Fan Deck Auto-Play (No Matched Code text pill) -->
+          <div class="stacked-card-visual">
+            <div class="fan-deck-container open" id="fanDeckContainer">
+              <div class="fan-deck-stage">
+                
+                <!-- Leaf 1: Soft Reds -->
+                <div class="fan-deck-blade fan-blade-1">
+                  <div class="blade-color-chip" style="background-color: #f7d6db;"></div>
+                  <div class="blade-color-chip" style="background-color: #f09ea9;"></div>
+                  <div class="blade-color-chip" style="background-color: #e86374;"></div>
+                  <div class="blade-color-chip" style="background-color: #df4d62;"></div>
+                </div>
+
+                <!-- Leaf 2: Coral Reds -->
+                <div class="fan-deck-blade fan-blade-2">
+                  <div class="blade-color-chip" style="background-color: #e54b5f;"></div>
+                  <div class="blade-color-chip" style="background-color: #dd354b;"></div>
+                  <div class="blade-color-chip" style="background-color: #c91830;"></div>
+                  <div class="blade-color-chip" style="background-color: #b51227;"></div>
+                </div>
+
+                <!-- Leaf 3: Center Match Leaf -->
+                <div class="fan-deck-blade fan-blade-3">
+                  <div class="blade-color-chip" style="background-color: #e0243b;"></div>
+                  <div class="blade-color-chip chip-match-target" style="background-color: #d72638;"></div>
+                  <div class="blade-color-chip" style="background-color: #bd1429;"></div>
+                  <div class="blade-color-chip" style="background-color: #a81023;"></div>
+                </div>
+
+                <!-- Leaf 4: Deep Ruby Reds -->
+                <div class="fan-deck-blade fan-blade-4">
+                  <div class="blade-color-chip" style="background-color: #a81023;"></div>
+                  <div class="blade-color-chip" style="background-color: #910c1d;"></div>
+                  <div class="blade-color-chip" style="background-color: #7d0a18;"></div>
+                  <div class="blade-color-chip" style="background-color: #690814;"></div>
+                </div>
+
+                <!-- Leaf 5: Rich Burgundy Reds -->
+                <div class="fan-deck-blade fan-blade-5">
+                  <div class="blade-color-chip" style="background-color: #6d0714;"></div>
+                  <div class="blade-color-chip" style="background-color: #57050f;"></div>
+                  <div class="blade-color-chip" style="background-color: #42030a;"></div>
+                  <div class="blade-color-chip" style="background-color: #300207;"></div>
+                </div>
+
+                <!-- Fan Pivot Base Pin -->
+                <div class="fan-deck-pivot" title="Diamond Fan Deck Pivot"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ================= CARD 3: DCM Zoom Automated Tinting ================= -->
+        <article class="stacked-card stacked-card-3" data-stack-index="2" id="card-step-3">
+          <!-- Left Content -->
+          <div class="stacked-card-info">
+            <div class="step-pill-tag">
+              <span>03 / 04</span>
+              <span>&bull;</span>
+              <span>Automated Tinting</span>
+            </div>
+            <h3 class="step-headline">Dealer Writes Shade Code & DCM Formulates</h3>
+            <p class="step-desc">
+              The dealer types your chosen shade code into the Diamond Color Matic (DCM) terminal. Supporting 1,000+ colors, DCM automatically retrieves the exact chemical micro-recipe and injects pure colorants into the base paint.
+            </p>
+            <div class="step-points-list">
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Automated system supports 1,000+ colors with zero shade drift.</span>
+              </div>
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Micro-droplet computerized dispensing guarantees 100% precision.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Visual: DCM Zoom Image with Screen Loading Auto-Play -->
+          <div class="stacked-card-visual">
+            <div class="dcm-zoom-wrapper">
+              <img 
+                src="dcm-zoom.png" 
+                alt="Diamond Color Matic computerized tinting unit with monitor"
+                class="dcm-zoom-img"
+              />
+
+              <!-- Computer Monitor Screen Overlay: Exact coordinates -->
+              <div class="dcm-monitor-screen" id="dcmScreen">
+                
+                <div class="monitor-os-bar">
+                  <span class="monitor-os-title">DCM SYSTEM 2.0</span>
+                  <span class="monitor-os-status">
+                    <span class="monitor-os-dot"></span>
+                    <span>ONLINE</span>
+                  </span>
+                </div>
+
+                <div class="monitor-input-block">
+                  <span class="monitor-input-label">DEALER INPUT CODE:</span>
+                  <div class="monitor-code-val">
+                    <span id="screenTypedCode">QC0331</span>
+                    <span class="monitor-typing-cursor"></span>
+                  </div>
+                </div>
+
+                <div class="monitor-dispense-stage">
+                  <div class="monitor-progress-header">
+                    <span class="monitor-progress-label" id="screenStatusText">Dispensing Colorants...</span>
+                    <span class="monitor-progress-pct" id="screenProgressPct">0%</span>
+                  </div>
+                  <div class="monitor-track-bar">
+                    <div class="monitor-fill-bar" id="screenFillBar"></div>
+                  </div>
+                </div>
+
+                <div class="monitor-match-row">
+                  <div class="monitor-swatch-box">
+                    <div class="monitor-mini-swatch" id="screenSwatch"></div>
+                    <span class="monitor-swatch-text" id="screenFormulaText">Formula: QC0331 Red Hot</span>
+                  </div>
+                  <span class="monitor-ready-badge" id="screenBadge">100% ACCURATE</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- ================= CARD 4: Choose Desired DCM Product ================= -->
+        <article class="stacked-card stacked-card-4" data-stack-index="3" id="card-step-4">
+          <!-- Left Content -->
+          <div class="stacked-card-info">
+            <div class="step-pill-tag">
+              <span>04 / 04</span>
+              <span>&bull;</span>
+              <span>Ready in Any Product</span>
+            </div>
+            <h3 class="step-headline">Choose Any Desired Diamond Paints Product</h3>
+            <p class="step-desc">
+              Your exact custom shade can now be dispensed into any DCM-compatible Diamond Paints product line. Select the formulation that fits your project—from luxury washable interior emulsions to heavy-duty weather shields.
+            </p>
+            <div class="step-points-list">
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Interior: Durasilk Luxury, Matt Enamel, Super Emulsion.</span>
+              </div>
+              <div class="step-point-item">
+                <svg class="step-point-icon" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                </svg>
+                <span>Exterior: Weather Defender Shield, Aqua Max, Plasticoat.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Visual: Pure Product Images Slideshow (No cards, no buttons, no badge) -->
+          <div class="stacked-card-visual">
+            <div class="product-pure-slideshow">
+              <img 
+                src="products/Durasilk-copy.png" 
+                alt="Diamond Paints DCM Product"
+                class="pure-product-img"
+                id="activeProductImg"
+              />
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- =========================================================
+       PRODUCTS AVAILABLE IN DCM SECTION (SCROLL-DRIVEN PURE PRODUCTS)
+       ========================================================= -->
+  <section class="dcm-products-section" id="dcm-products" aria-label="Products Available in DCM">
+    <div class="dcm-products-sticky-stage" id="dcm-products-sticky-stage">
+      
+      <!-- Section Header: Image Heading Only -->
+      <header class="dcm-products-header">
+        <h2 class="products-title-img-wrap">
+          <img src="how3.png" alt="Products Available in DCM" class="products-title-img" />
+        </h2>
+      </header>
+
+      <!-- Two-Row Products Showcase: Row 1 (Left -> Right), Row 2 (Right -> Left) -->
+      <div class="products-rows-wrap">
+        <div class="products-row" id="productsRow1">
+          <!-- Product 1: Overall Matt Enamel -->
+          <div class="pure-product-item">
+            <img src="products/matt-enamel.png" alt="Overall Matt Enamel" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 2: Artista by Diamond Paints -->
+          <div class="pure-product-item">
+            <img src="products/Artista-Gallon.png" alt="Artista by Diamond Paints" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 3: Overall Aqua Max -->
+          <div class="pure-product-item">
+            <img src="products/aqua-max.png" alt="Overall Aqua Max Exterior Finish" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 4: Overall Plasticoat Emulsion -->
+          <div class="pure-product-item">
+            <img src="products/plasticcoat.png" alt="Overall Plasticoat Emulsion" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 5: Overall Weather Max -->
+          <div class="pure-product-item">
+            <img src="products/weather-max.png" alt="Overall Weather Max All-Season" class="pure-product-can-img" loading="lazy" />
+          </div>
+        </div>
+
+        <div class="products-row" id="productsRow2">
+          <!-- Product 6: Ace Weather Defender -->
+          <div class="pure-product-item">
+            <img src="products/weather-defender-copy.png" alt="Ace Weather Defender Shield" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 7: Ace Acrylic Plastic Emulsion -->
+          <div class="pure-product-item">
+            <img src="products/acrylic-plastic-emulsion-copy.png" alt="Ace Acrylic Plastic Emulsion" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 8: Ace Matt Enamel -->
+          <div class="pure-product-item">
+            <img src="products/Matt Enamel.png" alt="Ace Matt Enamel" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 9: Ace Durasilk -->
+          <div class="pure-product-item">
+            <img src="products/Durasilk-copy.png" alt="Ace Durasilk Luxury Emulsion" class="pure-product-can-img" loading="lazy" />
+          </div>
+
+          <!-- Product 10: Overall Super Emulsion -->
+          <div class="pure-product-item">
+            <img src="products/super emulsion.png" alt="Overall Super Emulsion" class="pure-product-can-img" loading="lazy" />
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =========================================================
+       NAVY BLUE INFINITE MARQUEE CTA SECTION
+       ========================================================= -->
+  <section class="retailer-marquee-section" aria-label="Visit Your Nearest Retailer">
+    <div class="retailer-marquee-track">
+      <div class="retailer-marquee-group">
+        <img src="nearest-dealer.png" alt="Visit your nearest retailer to create your dream color" class="retailer-marquee-img" />
+      </div>
+      <div class="retailer-marquee-group" aria-hidden="true">
+        <img src="nearest-dealer.png" alt="" class="retailer-marquee-img" />
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       ORDER DCM FROM REGISTERED DEALERS SECTION
+       ========================================================= -->
+  <section class="dealers-section" id="dealers" aria-label="Order DCM from Registered Dealers">
+    <div class="dealers-container">
+      <header class="dealers-header">
+        <div class="dealers-badge">
+          <span class="dealers-badge-dot"></span>
+          <span>Authorized Network</span>
+        </div>
+        <h2 class="dealers-heading">Order DCM from Following Registered Dealers</h2>
+        <p class="dealers-note">* Please note that DCM is only available in selected cities *</p>
+      </header>
+
+      <div class="dealers-map-stage">
+        <div class="pk-map-tooltip" id="pkMapTooltip" role="status" aria-hidden="true"></div>
+        <svg id="pakistanMapSvg" class="pakistan-map-svg" viewBox="0 0 600 540" role="img" aria-label="Interactive map of Pakistan and Kashmir showing major cities with DCM dealers"></svg>
+      </div>
+
+      <div class="dealers-controls-bar">
+        <label for="dealers-selector" class="dealers-label">
+          Select City <span class="dealers-required" aria-hidden="true">*</span>
+        </label>
+        <div class="dealers-select-wrap">
+          <select id="dealers-selector" class="dealers-select" required aria-required="true">
+            <option value="">Select or click a city on the map</option>
+          </select>
+          <span class="dealers-select-chevron" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </div>
+        <span class="dealers-count-pill" id="dealersCountPill"></span>
+      </div>
+
+      <div class="dealers-accordions" id="dealersAccordions" aria-live="polite">
+        <div class="dealers-empty-hint">Click any red dot on the Pakistan map or select a city above to view registered DCM dealers.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       BROWSE BY COLOR FAMILIES SECTION (#colors)
+       ========================================================= -->
+  <section class="color-families-section" id="colors" aria-label="Browse By Color Families">
+    <div class="color-families-container">
+      <header class="color-families-header">
+        <div class="dealers-badge">
+          <span class="dealers-badge-dot"></span>
+          <span>1,001 Certified Shades</span>
+        </div>
+        <h2 class="color-families-heading">Browse By Color Families</h2>
+      </header>
+
+      <div class="color-families-list" id="colorFamiliesList"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       INTERACTIVE DCM MACHINE EXPERIENCE (#dcm-experience)
+       ========================================================= -->
+  <section class="dcm-experience-section" id="dcm-experience" aria-label="Try Diamond Color Matic">
+    <div class="dcm-experience-container">
+      <header class="dcm-experience-header">
+        <div class="dealers-badge">
+          <span class="dealers-badge-dot"></span>
+          <span>Interactive Demo</span>
+        </div>
+        <h2 class="dcm-experience-heading">See How DCM Mixes Your Color</h2>
+        <p class="dcm-experience-subtitle">Pick any shade or roll a random color, then press Tint Paint Now to watch the machine dispense and mix it.</p>
+      </header>
+
+      <div class="dcm-experience-stage" id="dcm8GameContainer"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       DOWNLOAD DCM SHADE CARD CTA SECTION
+       ========================================================= -->
+  <section class="shade-card-cta-section" id="shade-card-cta" aria-label="Download DCM Shade Card">
+    <div class="shade-card-cta-container">
+      <div class="shade-card-cta-content">
+        <h2 class="shade-card-cta-heading">Download DCM Shade Card</h2>
+        <a href="DCM-Shade-Card.pdf" download class="shade-card-download-btn">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+          <span>Download Shade Card</span>
+        </a>
+      </div>
+      <div class="shade-card-cta-media">
+        <img src="user+machine.png" alt="Diamond Paints DCM Authorized Retailer and Machine" class="shade-card-cta-img" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <script src="lib/dcm-color-families.js"></script>
+  <script src="components/dcm-8bit-game.js"></script>
+  <script>
+    (function initDcmExperience() {
+      if (window.DCM8BitGame && typeof window.DCM8BitGame.mount === 'function') {
+        window.DCM8BitGame.mount('#dcm8GameContainer', {
+          imageSrc: 'Diamond-Color-Matic-Kiosk.png',
+          pixelImageSrc: 'Diamond-Color-Matic-Kiosk-8bit.png',
+          simpleMode: true
+        });
+      }
+    })();
+  </script>
+
+  <script>
+    (function initColorFamiliesSection() {
+      const container = document.getElementById('colorFamiliesList');
+      const families = window.DCM_COLOR_FAMILIES;
+      if (!container || !Array.isArray(families)) return;
+
+      function getContrastColor(rgbStr) {
+        const m = rgbStr.match(/\d+/g);
+        if (!m || m.length < 3) return '#0f172a';
+        const r = Number(m[0]), g = Number(m[1]), b = Number(m[2]);
+        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+        return luminance > 0.62 ? '#0f172a' : '#ffffff';
+      }
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;');
+      }
+
+      container.innerHTML = families.map(fam => `
+        <div class="color-family-item" data-family="${escapeHtml(fam.id)}">
+          <button
+            type="button"
+            class="color-family-head"
+            style="background-color: ${escapeHtml(fam.bg)}; color: ${escapeHtml(fam.textColor)};"
+            aria-expanded="false"
+            aria-controls="family-panel-${escapeHtml(fam.id)}"
+          >
+            <span class="color-family-left">
+              <span class="color-family-toggle-icon" aria-hidden="true">+</span>
+              <span class="color-family-title">${escapeHtml(fam.name)}</span>
+            </span>
+            <span class="color-family-cta">
+              <span>${escapeHtml(fam.cta)}</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </span>
+          </button>
+          <div class="color-family-panel" id="family-panel-${escapeHtml(fam.id)}"></div>
+        </div>
+      `).join('');
+
+      container.addEventListener('click', (e) => {
+        const swatchBtn = e.target.closest('.color-swatch-card');
+        if (swatchBtn) {
+          const code = swatchBtn.getAttribute('data-code');
+          if (code && navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(code).catch(() => {});
+          }
+          const existing = swatchBtn.querySelector('.color-swatch-copied');
+          if (existing) existing.remove();
+          const badge = document.createElement('span');
+          badge.className = 'color-swatch-copied';
+          badge.textContent = 'Copied';
+          swatchBtn.appendChild(badge);
+          setTimeout(() => badge.remove(), 1200);
+          return;
+        }
+
+        const headBtn = e.target.closest('.color-family-head');
+        if (!headBtn) return;
+
+        const item = headBtn.closest('.color-family-item');
+        const famId = item.getAttribute('data-family');
+        const panel = item.querySelector('.color-family-panel');
+        const icon = headBtn.querySelector('.color-family-toggle-icon');
+
+        const isOpen = item.classList.toggle('is-open');
+        headBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (icon) icon.textContent = isOpen ? '−' : '+';
+
+        if (isOpen && panel && !panel.dataset.populated) {
+          const fam = families.find(f => f.id === famId);
+          if (fam) {
+            panel.innerHTML = `<div class="color-swatches-grid">${fam.shades.map(([name, code, rgb]) => {
+              const fg = getContrastColor(rgb);
+              return `
+                <button
+                  type="button"
+                  class="color-swatch-card"
+                  style="background-color: ${escapeHtml(rgb)}; color: ${fg};"
+                  data-code="${escapeHtml(code)}"
+                  title="Click to copy shade code ${escapeHtml(code)}"
+                >
+                  <span class="color-swatch-name">${escapeHtml(name)}</span>
+                  <span class="color-swatch-code">${escapeHtml(code)}</span>
+                </button>
+              `;
+            }).join('')}</div>`;
+            panel.dataset.populated = '1';
+          }
+        }
+      });
+    })();
+  </script>
+
+  <!-- Registered DCM Dealers Controller (44 Cities, 121 Registered Dealers) -->
+  <script>
+    (function initDcmDealersLocator() {
+      const selector = document.getElementById('dealers-selector');
+      const accordionsContainer = document.getElementById('dealersAccordions');
+      const countPill = document.getElementById('dealersCountPill');
+      if (!selector || !accordionsContainer) return;
+
+      const dcmDealersByCity = {
+        "Dera Ismail Khan": [
+          {
+            name: "New Shaheen Paint & Hardware Store",
+            address: "RV6V+Q6H Dera Ismail Khan, Pakistan",
+            map: "https://www.google.com/maps/place/31%C2%B048'43.0%22N+70%C2%B053'35.2%22E/@32.6120444,64.4372304,5.56z/data=!4m4!3m3!8m2!3d31.8119316!4d70.8931061?hl=en&entry=ttu&g_ep=EgoyMDI2MTAxMi4wIKXMDSoASAFQAw%3D%3D",
+            phone: "0348-9066702"
+          }
+        ],
+        "Abbottabad": [
+          {
+            name: "Abbott Paint Store (AB&C)",
+            address: "Opposite Daewoo Bus Terminal",
+            map: "https://maps.google.com/maps?q=34.1927994%2C73.2349014&z=17&hl=en",
+            phone: "923038070308"
+          }
+        ],
+        "Bahawalnagar": [
+          {
+            name: "Mirza akram paint store",
+            address: "Eid gah road bahawal nagar",
+            map: "https://www.google.com/maps/place/30%C2%B000'03.3%22N+73%C2%B015'20.5%22E/@30.005575,73.230689,13.96z/data=!4m4!3m3!8m2!3d30.000925!4d73.2556802?hl=en&entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D",
+            phone: "03007924710"
+          }
+        ],
+        "Bahawalpur": [
+          {
+            name: "Amin brother paint store Bahawalpur",
+            address: "9PJ8+WH3, Baghdad Road Hussaini Chowk Hamaytian, 63100, Pakistan",
+            map: "https://maps.app.goo.gl/Wz1mQgQuBFvYzbTU7",
+            phone: "03007803310"
+          },
+          {
+            name: "Amin paint store shop 2",
+            address: "Jhangi wala road near allama iqbal town bahawalpur",
+            map: "https://www.google.com/maps?q=29.4061325,71.7033895&z=17&hl=en",
+            phone: "+92 300 7807745"
+          },
+          {
+            name: "Arif paint house",
+            address: "Eid gha,multan road bahawalpur",
+            map: "https://maps.app.goo.gl/KFzR5cFnQoMhkDS28",
+            phone: "03026500070"
+          }
+        ],
+        "Batkhela": [
+          {
+            name: "Popular Paint (Hafeez Paint)",
+            address: "Near Zafar Park",
+            map: "",
+            phone: "0333 9503788"
+          }
+        ],
+        "Burewala": [
+          {
+            name: "Rang Mahal Enterprises",
+            address: "Gool Chok burewala",
+            map: "https://goo.gl/maps/sGXRyfTJ5msLraTA9",
+            phone: "03007596650"
+          }
+        ],
+        "Chakwal": [
+          {
+            name: "New Variety Paint",
+            address: "Talagang Hwy, opposite D. Watson, Chakwal, 48800, Pakistan",
+            map: "https://maps.app.goo.gl/mEpenPKi9FGhutGt6",
+            phone: "03215488288"
+          }
+        ],
+        "Chitral": [
+          {
+            name: "Hafeez Paint",
+            address: "RQVM+H5M, Sabzi mandi road, Chitrāl, Pakistan",
+            map: "https://www.google.com/maps/place/Hafeez+Paints/@35.843957,71.7829272,754m/data=!3m2!1e3!4b1!4m6!3m5!1s0x38db53006eb811b7:0xd8a50ef8b977d7cf!8m2!3d35.843957!4d71.7829272!16s%2Fg%2F11ysb10j6r?entry=ttu&g_ep=EgoyMDI2MDQxMi4wIKXMDSoASAFQAw%3D%3D",
+            phone: "0333 9503788"
+          }
+        ],
+        "Dadial(A.J.K)": [
+          {
+            name: "Mashallah Paint Store",
+            address: "Kacheri Road, Tariq Market",
+            map: "https://goo.gl/maps/xWkMFHftKN7ULeX56",
+            phone: "923445919027"
+          }
+        ],
+        "Daska": [
+          {
+            name: "Arshad Paint Store",
+            address: "Nisbat Road",
+            map: "https://goo.gl/maps/7fsjsHki6Angfzob9",
+            phone: "923016486501"
+          }
+        ],
+        "Dhallay Wali": [
+          {
+            name: "Al Watni Paint House",
+            address: "Near ABL, Dhallay Wali Head Marala",
+            map: "https://maps.app.goo.gl/L8f8irSmHbJM9G6A8",
+            phone: "923401215680"
+          }
+        ],
+        "Faisalabad": [
+          {
+            name: "China paints store",
+            address: "Main Sargodha Rd, near ideal bakery, Muslim Town B-Block Block A Muslim Town, Faisalabad, 38000, Pakistan",
+            map: "https://www.google.com/maps/place/Diamond+paints+Authorised+Dealer+(China+paints+store)/@31.4599673,73.0820741,17z/data=!3m1!4b1!4m6!3m5!1s0x392243ef92ba1059:0x2618f65ad625de06!8m2!3d31.4599673!4d73.0820741!16s%2Fg%2F11lmf_8zdn?entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D",
+            phone: "+92 300 9653989"
+          },
+          {
+            name: "Farooq paint",
+            address: "millat chownk near ideal bakery millat road faisalabad.",
+            map: "https://maps.app.goo.gl/x715hBewqCnjkJLaA",
+            phone: "0346 7798153"
+          },
+          {
+            name: "Mian Traders & Paint Store",
+            address: "94W7+HCX Faisalabad",
+            map: "https://maps.app.goo.gl/8WyeeqcadRKDJHy66",
+            phone: "03347377772"
+          },
+          {
+            name: "Mian Traders Paint Store",
+            address: "F59W+2HF Faisalabad, Pakistan",
+            map: "https://www.google.com/maps/place/31%C2%B028'03.2%22N+73%C2%B011'47.2%22E/@31.4675598,73.1938591,17z/data=!3m1!4b1!4m4!3m3!8m2!3d31.4675598!4d73.196434?hl=en&entry=ttu&g_ep=EgoyMDI2MTAxMi4wIKXMDSoASAFQAw%3D%3D",
+            phone: "+92 339 7377772"
+          },
+          {
+            name: "New Mujhahid Paints",
+            address: "Chenone road D ground faisalabad",
+            map: "https://maps.app.goo.gl/X6BMzE8uV3prMVyA8",
+            phone: "0301 8559392"
+          },
+          {
+            name: "New Mujhahid Paint",
+            address: "3 rd Shop near Golden Palm marquee Samundary road Faisalabad",
+            map: "https://maps.app.goo.gl/ti1zT698gvAuUiAE8?g_st=aw",
+            phone: "0331-7010490"
+          },
+          {
+            name: "Punjab Paint & H/W Store",
+            address: "Nalay wala road near Punjab bank chack jhumra",
+            map: "https://maps.app.goo.gl/JEXgLWsYjpNm8gtr6",
+            phone: "0307-7002101"
+          },
+          {
+            name: "Zubair paint",
+            address: "Shabad morr jhang road faisalabad.",
+            map: "https://maps.app.goo.gl/upxUJk9QahAriZg77",
+            phone: "0300 7276040"
+          }
+        ],
+        "Ghakkar": [
+          {
+            name: "Awais Paint",
+            address: "74XX+QRR Ghakhar, Pakistan",
+            map: "https://maps.app.goo.gl/EJMyUjUY6RHMaeFi8",
+            phone: "0300-8133608"
+          }
+        ],
+        "Gilgit": [
+          {
+            name: "Mumtaz Paint Point",
+            address: "Airport Road",
+            map: "https://goo.gl/maps/m66ExMZTC5BeHHQK9",
+            phone: "923465455360"
+          }
+        ],
+        "Gojra": [
+          {
+            name: "Sabir Center",
+            address: "Mahdi Mohalla Chowk",
+            map: "https://maps.app.goo.gl/m8zeBa5NL6qgs1iu6?g_st=iwb",
+            phone: "03083033068"
+          }
+        ],
+        "Gujranwala": [
+          {
+            name: "Al falah Traders",
+            address: "DC colony shop no LG 11 basement commercial plaza DC colony Rahwali",
+            map: "https://maps.app.goo.gl/qWeue23umssmh5SE6",
+            phone: "03067466675"
+          },
+          {
+            name: "Shani Paint",
+            address: "Sethi Plaza",
+            map: "https://maps.app.goo.gl/7YiMvF8PRmP3EkT4A",
+            phone: "923009648940"
+          },
+          {
+            name: "Noori Paint Agency",
+            address: "Chowk Bagbanpura Hafizabad Road",
+            map: "https://maps.app.goo.gl/cVJFad66sNoDmzCb6",
+            phone: "923016419008"
+          }
+        ],
+        "Haripur": [
+          {
+            name: "Maashallah Paint Store",
+            address: "Near Pilot School aftab Plaza Circular Road, Haripur",
+            map: "https://www.google.com/maps/place/33%C2%B059'44.0%22N+72%C2%B056'08.8%22E/@33.9955677,72.93321,17z/data=!3m1!4b1!4m4!3m3!8m2!3d33.9955677!4d72.9357849?hl=en&entry=ttu&g_ep=EgoyMDI2MDUxMy4wIKXMDSoASAFQAw%3D%3D",
+            phone: "03345043382"
+          }
+        ],
+        "Haroonabad": [
+          {
+            name: "New Nafees Paints & Hardware Store",
+            address: "Tehsil Bazar Haroonabad",
+            map: "https://www.google.com/maps?q=29.6103185,73.1353291&z=17&hl=en",
+            phone: "03322228584"
+          }
+        ],
+        "Hyderabad": [
+          {
+            name: "M.H.Traders",
+            address: "Plot # 10 Block D, Commercial Area Unit # 6 Latifabad",
+            map: "https://goo.gl/maps/Ue8wnmJjxefguojn8",
+            phone: "923332603223"
+          }
+        ],
+        "Islamabad": [
+          {
+            name: "A.A Company",
+            address: "Nazik Plaza Main G.T Road Opposite DHA Phase - II",
+            map: "https://maps.app.goo.gl/GRwNzswJReWNUf8D8?g_st=awb",
+            phone: "923215193986"
+          },
+          {
+            name: "Best Choice centre Paint & Hardware Store",
+            address: "Shop No. 1-2 Commercial Area Sector-E DHA-1",
+            map: "https://www.google.com/maps/dir/?api=1&destination=Shop%20No.%201-2%20Commercial%20Area%20Sector-E%20DHA-1%20%20Islamabad%2C%20Punjab",
+            phone: "3455450634"
+          },
+          {
+            name: "Ehsan Paint & Store",
+            address: "J2VJ+MMX Islamabad",
+            map: "https://maps.app.goo.gl/ggiTEjNrirTcid1b6",
+            phone: "+92 335 5211559"
+          },
+          {
+            name: "Hamza Traders",
+            address: "Peshawar Road",
+            map: "https://maps.app.goo.gl/tUdHB62UTurBuvWc8",
+            phone: "923005551837"
+          },
+          {
+            name: "Hussain Traders and Co.",
+            address: "Shop# 3-4, Main Service Road, Opp. Street# 22",
+            map: "https://maps.app.goo.gl/U3NwABnHsfczeGx87",
+            phone: "923215253076"
+          },
+          {
+            name: "New Hussain Traders Paint & Hardware",
+            address: "Shop # 4, Umer Trade Center, Main Fateh Jhung Road Tarnol, Islamabad",
+            map: "https://maps.app.goo.gl/yuH87x8oQ3rDJ1gg7",
+            phone: "03015445644"
+          },
+          {
+            name: "Saleem Sons Paints & Hardware (Hamza Traders 2)",
+            address: "15 Khayaban-e-Suhrwardy Rd, Aabpara G 6/1 G-6, Islamabad, Pakistan",
+            map: "https://maps.app.goo.gl/apbz9Kyjtg7VD87S9",
+            phone: "0512277437"
+          }
+        ],
+        "Jhang": [
+          {
+            name: "Saeed Paint House",
+            address: "bhakkar road Jhang Sadar",
+            map: "https://www.google.com/maps/place/31%C2%B016'05.5%22N+72%C2%B018'53.4%22E/@31.2682065,72.3122543,17z/data=!3m1!4b1!4m4!3m3!8m2!3d31.2682065!4d72.3148292?hl=en&entry=ttu&g_ep=EgoyMDI2MDUyMC4wIKXMDSoASAFQAw%3D%3D",
+            phone: "03457971223"
+          }
+        ],
+        "Jhelum": [
+          {
+            name: "Pak Hardware Paint Store",
+            address: "jamia asreya road Jhelum",
+            map: "https://www.google.com/maps/search/New%20city%20hardware/@32.93391907,73.72979262,17z?hl=en",
+            phone: "923155415844"
+          }
+        ],
+        "Karachi": [
+          {
+            name: "AJ Paints(Jamal Contractor)",
+            address: "Shop#1 Al-madinah arcade Plot no 185 block 7 & 8 c.p & berar society , dohraji colony khi -74800",
+            map: "https://www.google.com/maps/search/AJ%20Paints/@24.88605885,67.0790947,17z?hl=en",
+            phone: "+92 333 2254772"
+          },
+          {
+            name: "Al-Gilani Hardware & Paint Store",
+            address: "Shop No. 495-C Commercial Area Tariq Road",
+            map: "https://yandex.com/maps/10615/karachi/?ll=67.058745%2C24.871563&mode=routes&rtext=~24.871431%2C67.059081&rtt=auto&ruri=~ymapsbm1%3A%2F%2Forg%3Foid%3D67408166130&z=18.75",
+            phone: "923333460060"
+          },
+          {
+            name: "Al-Jannat Paint House",
+            address: "R2CW+3W4 Defence Housing Authority, Karachi, Pakistan",
+            map: "https://maps.app.goo.gl/QoVMcBBso8MqD6eVA",
+            phone: "0333 3587244"
+          },
+          {
+            name: "Arsalan Paint House",
+            address: "Shop No. A-3, Kahkeshan Homes, Gulzar-e-Hijri",
+            map: "https://maps.app.goo.gl/hh4GjkpHmMgSE12w8",
+            phone: "923314647454"
+          },
+          {
+            name: "Askari Colour Bank & Sanitary Store",
+            address: "Shop # 6-6/A, Hussaini Sifarat Khana, Saudabad, Malir",
+            map: "https://maps.app.goo.gl/hvmXjMq4NuMQeMWeA",
+            phone: "923458282890"
+          },
+          {
+            name: "Iqbal Paint",
+            address: "Shop No. 1, Lucky Center, Gulshan-e-Iqbal",
+            map: "https://maps.app.goo.gl/DZ6CTCTGpu3X1Ye69",
+            phone: "923218266707"
+          },
+          {
+            name: "Jami Paint House",
+            address: "10th Commercial Street Phase-4 D.H.A",
+            map: "https://maps.app.goo.gl/WJfuJvKk4GbizpBG6",
+            phone: "923093616027"
+          },
+          {
+            name: "Junaid Traders",
+            address: "Shop no. 5, WSA-25, Block 14, F.B. Area",
+            map: "https://maps.app.goo.gl/NsByMyZ3uoBtDwZm7",
+            phone: "923219205153"
+          },
+          {
+            name: "Lahore Trading Company",
+            address: "Precinct 27 Bahria Town, Karachi",
+            map: "https://maps.app.goo.gl/FxVhQPEeWPaWyM4D7",
+            phone: "0300 5334966"
+          },
+          {
+            name: "Madina Paint House",
+            address: "SB-35, Arif Center, Block 7, Gulistan-e-Johar, Safoora Chowk",
+            map: "https://maps.app.goo.gl/ADn8EhYsLG46Tgsj8",
+            phone: "03218225676"
+          },
+          {
+            name: "Madina Paint Harware Store",
+            address: "Wsa 17/16, Waterpump Market, Federal B Area Block 16 Gulberg Town, Karachi, 75300, Pakistan",
+            map: "https://maps.app.goo.gl/dYg6KwPN9rkhRBbC6",
+            phone: "03332079770"
+          },
+          {
+            name: "Maryam Paint House",
+            address: "Bohra Pir",
+            map: "https://maps.app.goo.gl/zHMyFq3evgAUAy8w8?g_st=awb",
+            phone: "923000935453"
+          },
+          {
+            name: "MJS Interiors",
+            address: "7-C, 28th Street, Tauheed Commercial DHA Phase-5",
+            map: "https://maps.app.goo.gl/i7FyV9LTasDW1p6q7",
+            phone: "923332290683"
+          },
+          {
+            name: "Royal Paint Palace",
+            address: "Shop # 11, Dada Garden, Sharfabad",
+            map: "https://maps.app.goo.gl/9VEJo8r5U97aHkwf9",
+            phone: "923462380979"
+          },
+          {
+            name: "S.M. Co",
+            address: "19/34, Al-Hydri Memorial Market, Block E, North Nazimabad",
+            map: "https://maps.app.goo.gl/bNZGU4Mqzoax26Qx5",
+            phone: "923212101592"
+          },
+          {
+            name: "Taheri Paint",
+            address: "3-C, 28th Street, Tauheed Commercial, Phase 5, D.H.A",
+            map: "https://maps.app.goo.gl/Lged4nwWaQrdJdfy6",
+            phone: "923411289416"
+          },
+          {
+            name: "Taheri Paint Mart",
+            address: "Shop no1 plot no54c 7street badarcomercial phase 5 dha",
+            map: "https://www.google.com/maps?q=24.79831886291504,67.04335021972656&z=17&hl=en",
+            phone: "0341 1289416"
+          },
+          {
+            name: "Zubair Paint House",
+            address: "Shop No. 3, Liberty Arcade, Block 13G, Gulshan-e-Iqbal",
+            map: "https://maps.app.goo.gl/hgpC8XeyxWyh9KoTA",
+            phone: "923002114258"
+          }
+        ],
+        "Khanewal": [
+          {
+            name: "Madina Paint",
+            address: "Near Karachi Darbar",
+            map: "https://maps.app.goo.gl/LXcotJ92grL6BgeH6",
+            phone: "3006893082"
+          }
+        ],
+        "Kharian": [
+          {
+            name: "Al- Meezan Color Bank & Paint Store",
+            address: "Marala Plaza Dinga Road",
+            map: "https://maps.app.goo.gl/H6po1RAoRbuqgoXL7",
+            phone: "923005429207"
+          }
+        ],
+        "Lahore": [
+          {
+            name: "A.N Awan Paint House",
+            address: "264-Y Commercial, D.H.A",
+            map: "https://maps.app.goo.gl/7cZX4Uez4cGLFctp7?g_st=awb",
+            phone: "923008054005"
+          },
+          {
+            name: "Ahmad Paint House",
+            address: "126- B, Lahore, 53720, Pakistan",
+            map: "https://share.google/gfn5IVzNoBiCoDIHV",
+            phone: "+92 301 4114824"
+          },
+          {
+            name: "AL MADINA",
+            address: "H.No.177-A, Muhalla Madina Block, Awan Town",
+            map: "https://maps.app.goo.gl/W14CZoYY3bLSsDwi9",
+            phone: "923014468710"
+          },
+          {
+            name: "Anwar Paint House",
+            address: "Yousaf Park Shadrah",
+            map: "https://maps.app.goo.gl/zGXVGCdhZjGCzCZr8",
+            phone: "923004307725"
+          },
+          {
+            name: "Aqeel Paint House",
+            address: "Jamu Stop Bedian Road Lahore, Punjab",
+            map: "https://maps.app.goo.gl/SP7qFHJcry334FXL7",
+            phone: "0322 4663245"
+          },
+          {
+            name: "Babar Paint Palace",
+            address: "1/1 Iqbal Avenue, Phase-3, Canal Bank Road",
+            map: "https://maps.app.goo.gl/DKBwzRqZ5cPcYPeS8",
+            phone: "923215294038"
+          },
+          {
+            name: "G.S Paints",
+            address: "233 B Tulip Ext. Commercial Sector C, Bahria Town",
+            map: "https://maps.app.goo.gl/Gi5KFM7oYDKYZsY98",
+            phone: "923006999555"
+          },
+          {
+            name: "Ghousia Paint",
+            address: "22 Multan Rd, Chung, Lahore, 53000, Pakistan",
+            map: "https://maps.app.goo.gl/VKpxkHhNT2QtJ1tr6",
+            phone: "03244032658"
+          },
+          {
+            name: "Haidery Paint House",
+            address: "13,Km main Multan road near orange line station Thoker Niaz baig Lahore",
+            map: "https://maps.app.goo.gl/A22wARq5qYoV9oqZ9",
+            phone: "03227178026"
+          },
+          {
+            name: "Haji & Sons Paint & Hardware Store",
+            address: "Bandianwala Pull Chungi Amarsidhu",
+            map: "https://maps.app.goo.gl/ABXXpeD7he23qbCu7",
+            phone: "923004006073"
+          },
+          {
+            name: "Ittefaq paint Epoxy traders & Diamond Paints",
+            address: "966M+VJF ADDA PLOT, Chanar Courts, Raiwind, 53700, Pakistan",
+            map: "https://www.google.com/maps/place/Ittefaq+paint+Epoxy+traders+%26+Diamond+Paints/@31.3622472,74.2339996,17z/data=!3m1!4b1!4m6!3m5!1s0x3919ab0025f9ceeb:0xdaf416dc2511aeda!8m2!3d31.3622472!4d74.2339996!16s%2Fg%2F11vymzyz3k!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDgwNC4wIKXMDSoASAFQAw%3D%3D",
+            phone: "+923157225258"
+          },
+          {
+            name: "Ittefaq Paint (Walton rd)",
+            address: "Korray Stop, Walton Rd, Zaman Colony, Lahore, 05450, Pakistan",
+            map: "https://maps.app.goo.gl/oxsC1s6hj3TaAUFeA",
+            phone: "03214697626"
+          },
+          {
+            name: "Kamal Paint Store",
+            address: "Near kamal shinwari Dera, Fateh e garh. Canal road Lahore.",
+            map: "https://www.google.com/maps?q=31.56671714782715,74.40494537353516&z=17&hl=en",
+            phone: "0321 9411542"
+          },
+          {
+            name: "Lasani Paint",
+            address: "Ghazi Road, Opp. Miraj floor Mill",
+            map: "https://maps.app.goo.gl/STHgosNv66RYUo6bA",
+            phone: "923334418856"
+          },
+          {
+            name: "Majid Paint House",
+            address: "222, Ferozpur Road Opp. Jamia Ashrafia",
+            map: "https://maps.app.goo.gl/SsagGhFdG1CZNrPC9",
+            phone: "923224002241"
+          },
+          {
+            name: "MASHALLAH PAINT HOUSE (Hanjarwal)",
+            address: "Opposite Zainbia Hospital, Near Mansoora, Multan Road",
+            map: "https://maps.app.goo.gl/jHWV5xM1GpdxtLcCA",
+            phone: "923224362421"
+          },
+          {
+            name: "MASHALLAH PAINT STORE (Bahria Town)",
+            address: "192-B, Sector C, Commercial Bahria Town",
+            map: "https://www.google.com/maps?q=31.3749581,74.1876295&z=17&hl=en",
+            phone: "03004185654"
+          },
+          {
+            name: "MASHALLAH PAINT (College rd)",
+            address: "121/1B1 Khokhar Chowk near Al jannat marriage Hall",
+            map: "https://maps.app.goo.gl/SsagGhFdG1CZNrPC9",
+            phone: "03204122600"
+          },
+          {
+            name: "Mian Brothers S A Paint House",
+            address: "HCFM+99H, Jehangir Rd, Harbanspura, Lahore, Pakistan",
+            map: "https://maps.app.goo.gl/gaLLNaJCcfdA7fzC6",
+            phone: "03214351299"
+          },
+          {
+            name: "Moughal Brothers Paint & Hardware Store",
+            address: "162-Main Bazar Fateh Sher Road Mozang",
+            map: "https://maps.google.com/?q=31.552219,74.313911",
+            phone: "923214699998"
+          },
+          {
+            name: "NAZIR PAINT HOUSE",
+            address: "Shahkam Chowk, Defence Rd, Block B Mohlanwal, Lahore, 54810, Pakistan",
+            map: "https://www.google.com/maps/dir//Diamond+Paints+-+Nazir+Ahmad+Paint,+Shahkam+Chowk%D8%8C+Defence+Rd,+Block+B+Mohlanwal,+Lahore,+54810,+Pakistan%E2%80%AD/@31.4829403,74.3343893,11z/data=!3m1!4b1!4m8!4m7!1m0!1m5!1m1!1s0x3918ffb4f27f2adb:0x25929394808ac505!2m2!1d74.1697422!2d31.4006929?entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D",
+            phone: "923004196239"
+          },
+          {
+            name: "Nice Paint",
+            address: "895W+M22, suwa asil, Sue Asil, Lahore, Pakistan",
+            map: "https://maps.app.goo.gl/qqxq39UaERH8Aemz9",
+            phone: "03124910980"
+          },
+          {
+            name: "NEW PAINT VALLEY",
+            address: "Shop # 4, Ch Hassan Gujjar Market, DHA Phase 2",
+            map: "https://maps.app.goo.gl/BoZheqfJ3v81EAuf7",
+            phone: "923204006880"
+          },
+          {
+            name: "Raja Paint House",
+            address: "Bhatta Chowk, Badian Road, Lahore Cantt",
+            map: "https://maps.app.goo.gl/TMHSwoRzQqNLDeB57",
+            phone: "923008429415"
+          },
+          {
+            name: "RANG MEHAL",
+            address: "192-A Multan Rd, Dholanwal Lahore, 54000, Pakistan",
+            map: "https://www.google.com/maps/dir//Rang+Mahal+Paints,+192-A+Multan+Rd,+Dholanwal+Lahore,+54000,+Pakistan/@31.4829403,74.3343893,7z/data=!4m8!4m7!1m0!1m5!1m1!1s0x391903138a2b4d41:0x2d34126d9d13530c!2m2!1d74.2841426!2d31.5275938?hl=en-PK&entry=ttu&g_ep=EgoyMDI2MDcyOS4wIKXMDSoASAFQAw%3D%3D",
+            phone: "03224972502"
+          },
+          {
+            name: "REHMAN PAINT AND HARDWARE STORE",
+            address: "29 Wahdat Rd, Muslim Town, Lahore, 54700, Pakistan",
+            map: "https://maps.app.goo.gl/6U4qr5QiAfmRV5rs7",
+            phone: "03224124418"
+          },
+          {
+            name: "Shah Gee Sanitary Electric Hardware and Paint Store",
+            address: "1-C jubilee town lahore",
+            map: "https://maps.app.goo.gl/zDqdYpkXRK6uGqGF6",
+            phone: "03237733139"
+          }
+        ],
+        "Manawala": [
+          {
+            name: "New Sitara Paint",
+            address: "Main Sheikhpura road, near Qamar Garden, Faisalabad, Pakistan",
+            map: "https://www.google.com/maps/place/Diamond+Paints+-+New+Sitara+Paint/data=!4m2!3m1!1s0x0:0x8b4f5966d838cf22?sa=X&ved=1t:2428&ictx=111",
+            phone: "+92 300 8067452"
+          }
+        ],
+        "Mardan": [
+          {
+            name: "Colour World",
+            address: "Nawi kali raod, sector, opposite to, مردان, 23200, PK",
+            map: "https://maps.app.goo.gl/F9vDWizBfDzDim8v6",
+            phone: "03145434000"
+          },
+          {
+            name: "Pakistan Paint house",
+            address: "Khawaja Gunj Hoti, Mardan",
+            map: "https://maps.app.goo.gl/WdUnfCxo7aq2xs3D7",
+            phone: "03149601212"
+          }
+        ],
+        "Multan": [
+          {
+            name: "Diamond Color Center",
+            address: "Shop # 2, Musa Center, Opposite Wapda Town",
+            map: "https://maps.app.goo.gl/n979eNdHe8eNzJE49",
+            phone: "03007368500"
+          },
+          {
+            name: "Gulzar Paint House",
+            address: "Tubewel Workshop MDA Multan",
+            map: "https://maps.app.goo.gl/E7gA5JSFg1HCQkNG8",
+            phone: "03028738974"
+          }
+        ],
+        "Okara": [
+          {
+            name: "Naveed Paint House",
+            address: "Shop # 77 Near Taxi Stand",
+            map: "",
+            phone: "923016060080"
+          }
+        ],
+        "Pakpattan": [
+          {
+            name: "Royal Paint House",
+            address: "College Road",
+            map: "https://goo.gl/maps/6bxXGcvX8CfGxGqc6",
+            phone: "923336955150"
+          }
+        ],
+        "Parrianwali": [
+          {
+            name: "Moughal Paint & Hardware Store",
+            address: "Jokalian Road",
+            map: "https://goo.gl/maps/3mSmG6HA8LkHNSXTA",
+            phone: "923007556336"
+          }
+        ],
+        "Peshawar": [
+          {
+            name: "KHAKSAR Paints Peshawar",
+            address: "سرکلر روڈ کوہاٹی گیٹ پشاور شہر",
+            map: "https://maps.app.goo.gl/GRfCedB62tbwEVeP6",
+            phone: "03129112913"
+          },
+          {
+            name: "Khalil Paint Store",
+            address: "XG63+2M4 Peshawar, Pakistan",
+            map: "https://maps.app.goo.gl/5McKgwZBQmiikiEs9",
+            phone: "+923106017736"
+          }
+        ],
+        "Quetta": [
+          {
+            name: "M.Saleem & Co",
+            address: "Mechongi Road",
+            map: "https://goo.gl/maps/pD1BX3fMDnUDJvQZ8",
+            phone: "923058000012"
+          }
+        ],
+        "Rahim Yar Khan": [
+          {
+            name: "Mian Color CENTRE",
+            address: "Khanpur Rd, Adda Iqbal Nagar Gulshan-e-Iqbal, Rahim Yar Khan, 64200, Pakistan",
+            map: "https://www.google.com/maps/place/Mian+Color+CENTRE/@28.4288808,70.3281183,17z/data=!3m1!4b1!4m6!3m5!1s0x39375be4e90928af:0x363b56fdd62b05ee!8m2!3d28.4288808!4d70.3281183!16s%2Fg%2F12mkzjk98!18m1!1e1?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
+            phone: "03336379371"
+          }
+        ],
+        "Rawalpindi": [
+          {
+            name: "Bari Paint Store",
+            address: "dhamial road",
+            map: "https://maps.app.goo.gl/hQGoByM4zT3L9cPR6",
+            phone: "03005346498"
+          },
+          {
+            name: "Hassan Traders",
+            address: "Shop B # 8, Chour Chowk Peshawar Road, Rawalpindi",
+            map: "https://maps.app.goo.gl/5q2AvquH2pKFDWaL8",
+            phone: "03455075575"
+          },
+          {
+            name: "Khan Paint",
+            address: "Qurashi nan center groti stop, Dhok Syedan Road, Street No. 14, Rawalpindi, 46000, Pakistan",
+            map: "https://share.google/tv1y8SXmZqI8T0Tz0",
+            phone: "03155666564"
+          },
+          {
+            name: "Musa Sons",
+            address: "Adam Jee Road, opp. Shala Market Sadar",
+            map: "https://maps.app.goo.gl/s4DFHDZAcg7bvibP8",
+            phone: "03005319283"
+          },
+          {
+            name: "Siddique Paint and Hardware Store",
+            address: "Main IJP road Haidery Market secter 1 khayaban sir syed Rawalpindi",
+            map: "https://maps.app.goo.gl/B7hkTTXAqwFQGicZ6",
+            phone: "03335709903"
+          },
+          {
+            name: "Universal Paint & Hardware Store",
+            address: "Saidpur Rd, New Katarian Pindora,",
+            map: "https://maps.app.goo.gl/53is1XUvxydPB1yD7",
+            phone: "03478567303"
+          }
+        ],
+        "Sahiwal": [
+          {
+            name: "Mukhtar Paint House",
+            address: "Madina Auto Market, Tufail Shaheed Road",
+            map: "https://maps.app.goo.gl/WQT6i7Htjxm4qpoH8",
+            phone: "923336911292"
+          },
+          {
+            name: "Rafique Hardware & Paint",
+            address: "Near Masjid Mahajreen Kot Khadim Ali Shah",
+            map: "https://maps.app.goo.gl/vjA7Af8jSzakjv2FA",
+            phone: "923069144547"
+          }
+        ],
+        "Sargodha": [
+          {
+            name: "Baiga Paints & Hardware Store",
+            address: "Near General Bus Stand Lahore Road",
+            map: "https://maps.app.goo.gl/h7m528WX9Yurehz3A",
+            phone: "0300-6001906"
+          },
+          {
+            name: "Khursheed Traders Hardware and Paint Store",
+            address: "Corner Nazeer Coloney Kot Fareed Road Notaa Wali Sarkar",
+            map: "https://maps.app.goo.gl/54LPN3tcPYdprHQV8",
+            phone: "03016724254"
+          },
+          {
+            name: "Rainbow Enterprises shop",
+            address: "Larri Adda Road near Crystal Marriage Hall Sargodha",
+            map: "https://www.google.com/maps/place/32%C2%B004'27.4%22N+72%C2%B041'56.5%22E/@32.0743014,72.6988753,21z/data=!4m4!3m3!8m2!3d32.0742898!4d72.6990353?hl=en&entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D",
+            phone: "0300-6001906"
+          }
+        ],
+        "Sheikhupura": [
+          {
+            name: "Afaq Paint Hardware Store",
+            address: "Lahore Road Opp. Housing Colony",
+            map: "https://maps.app.goo.gl/3UEQ1uAZ6BckNZU69",
+            phone: "923008012107"
+          }
+        ],
+        "Sialkot": [
+          {
+            name: "Fakhar Paint",
+            address: "Adda Shahbaz Khan",
+            map: "https://maps.app.goo.gl/mc49tpnuR7ceX17M8",
+            phone: "923045531207"
+          },
+          {
+            name: "Haseeb Paint House",
+            address: "Kashmir Road",
+            map: "https://maps.app.goo.gl/CoZuztZiiYUn5sjb8",
+            phone: "923316323207"
+          },
+          {
+            name: "Makkah Paint House",
+            address: "Head Marala Road Gohad Pur",
+            map: "https://goo.gl/maps/f2YGPNZCMXKbCzNZ6",
+            phone: "923007175470"
+          },
+          {
+            name: "New Usman Paints",
+            address: "Defence Road",
+            map: "https://maps.app.goo.gl/egP38ZLuLEHmkSX68",
+            phone: "923006153076"
+          },
+          {
+            name: "Shahid Paint & Building Material Store (B&C)",
+            address: "Daska Road Aadha",
+            map: "https://maps.app.goo.gl/j68o8HJKMFJzt5RAA",
+            phone: "923416812233"
+          },
+          {
+            name: "Zaitoon Paint House",
+            address: "Railway Road",
+            map: "https://maps.app.goo.gl/1ShB7zFxq2h9Kuoq8",
+            phone: "03006120408"
+          }
+        ],
+        "Swabi": [
+          {
+            name: "Fauji Paint, Senatory & Tile House",
+            address: "Adda Distt, Shewa Road Shewa, Swabi, 23420",
+            map: "https://maps.app.goo.gl/eEWnyGnYSpNEJXrU7",
+            phone: "03338885584"
+          },
+          {
+            name: "Saad Paint",
+            address: "Government college of technology, Pakistan",
+            map: "https://maps.app.goo.gl/GJKJTsuuc1HV5QJy5",
+            phone: "03139870160"
+          }
+        ],
+        "Talagang": [
+          {
+            name: "Sajjad Hardware Glass Paint",
+            address: "Al Khaliq plaza near ubl bank Rawalpindi road Talagang",
+            map: "https://www.google.com/maps/place/Sajjad+Hardware+Paint+%26+Glass+Store/@32.9282722,72.4111557,17z/data=!4m6!3m5!1s0x392095d0045a8829:0x5651cc606021b291!8m2!3d32.9284344!4d72.4112115!16s%2Fg%2F11jtzhgv62?hl=en&entry=ttu&g_ep=EgoyMDI1MDkyOC4wIKXMDSoASAFQAw%3D%3D",
+            phone: "0300-5230472"
+          }
+        ],
+        "Taxila": [
+          {
+            name: "Madina Paints & Supplies LLP",
+            address: "Faisal Shaheed Road",
+            map: "https://maps.app.goo.gl/nq5oJtvshLQL6dGh6",
+            phone: "0321-5216381"
+          }
+        ],
+        "Wah Cantt": [
+          {
+            name: "Madina Electric and Paint Store",
+            address: "Main Gt Road bahtar more, Wah Cantt, 47000, Pakistan",
+            map: "https://maps.app.goo.gl/R9oukymArTpGjzDu6",
+            phone: "03089033578"
+          }
+        ]
+      };
+
+      const cities = Object.keys(dcmDealersByCity).sort((a, b) => a.localeCompare(b));
+      cities.forEach(city => {
+        const opt = document.createElement('option');
+        opt.value = city;
+        opt.textContent = city;
+        selector.appendChild(opt);
+      });
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      function formatPhoneDisplay(rawPhone) {
+        const cleaned = rawPhone.trim();
+        return cleaned.startsWith('+') ? cleaned : '+' + cleaned;
+      }
+
+      function renderDealers(city) {
+        if (selector.value !== city) {
+          selector.value = city || '';
+        }
+
+        // Sync active state on map dots
+        const mapSvg = document.getElementById('pakistanMapSvg');
+        if (mapSvg) {
+          mapSvg.querySelectorAll('.pk-city-dot-group').forEach(g => {
+            g.classList.toggle('is-active', g.getAttribute('data-city') === city);
+          });
+        }
+
+        if (!city || !dcmDealersByCity[city]) {
+          if (countPill) {
+            countPill.classList.remove('visible');
+            countPill.textContent = '';
+          }
+          accordionsContainer.innerHTML =
+            '<div class="dealers-empty-hint">Click any red dot on the Pakistan map or select a city above to view registered DCM dealers.</div>';
+          return;
+        }
+
+        const dealers = dcmDealersByCity[city];
+        if (countPill) {
+          countPill.textContent = `${dealers.length} Registered ${dealers.length === 1 ? 'Dealer' : 'Dealers'}`;
+          countPill.classList.add('visible');
+        }
+
+        accordionsContainer.innerHTML = dealers
+          .map((dealer, idx) => {
+            const safeName = escapeHtml(dealer.name);
+            const safeAddress = escapeHtml(dealer.address);
+            const safePhoneHref = escapeHtml(dealer.phone.replace(/\s+/g, ''));
+            const safePhoneLabel = escapeHtml(formatPhoneDisplay(dealer.phone));
+
+            const addressHtml = dealer.map
+              ? `<a href="${escapeHtml(dealer.map)}" target="_blank" rel="noopener noreferrer" class="dealer-detail-link">${safeAddress}</a>`
+              : `<span class="dealer-detail-text">${safeAddress}</span>`;
+
+            return `
+              <div class="dealer-accordion-item">
+                <button type="button" class="dealer-accordion-header" aria-expanded="false" aria-controls="dealer-panel-${idx}">
+                  <span class="dealer-name">${safeName}</span>
+                  <span class="dealer-toggle-meta">
+                    <span class="dealer-toggle-text">Click for details</span>
+                    <svg class="dealer-chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </span>
+                </button>
+                <div class="dealer-accordion-content" id="dealer-panel-${idx}">
+                  <div class="dealer-detail-row">
+                    <svg class="dealer-detail-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    ${addressHtml}
+                  </div>
+                  <div class="dealer-detail-row">
+                    <svg class="dealer-detail-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    <a href="tel:${safePhoneHref}" class="dealer-detail-link">${safePhoneLabel}</a>
+                  </div>
+                </div>
+              </div>
+            `;
+          })
+          .join('');
+      }
+
+      // Interactive Pakistan Map SVG Renderer
+      (function initPakistanMap() {
+        const svg = document.getElementById('pakistanMapSvg');
+        const tooltip = document.getElementById('pkMapTooltip');
+        if (!svg) return;
+
+        const svgNS = 'http://www.w3.org/2000/svg';
+        function project(lat, lon) {
+          const x = 20 + ((lon - 60.8) / 19.7) * 560;
+          const y = 20 + ((37.4 - lat) / 13.8) * 500;
+          return [Number(x.toFixed(1)), Number(y.toFixed(1))];
+        }
+
+        function toPath(coords, closePath) {
+          return coords.map((pt, i) => {
+            const [x, y] = project(pt[0], pt[1]);
+            return `${i === 0 ? 'M' : 'L'}${x},${y}`;
+          }).join(' ') + (closePath ? ' Z' : '');
+        }
+
+        // Pakistan outer boundary (approximate geographic outline)
+        const pkOutline = [
+          [25.05, 61.75], [25.12, 62.32], [25.26, 63.47], [25.21, 64.64],
+          [25.00, 66.70], [24.85, 67.00], [24.15, 67.45], [23.70, 68.15],
+          [24.35, 70.75], [25.40, 70.95], [25.70, 70.20], [27.80, 70.05],
+          [28.20, 71.90], [29.20, 73.20], [30.35, 73.90], [31.60, 74.57],
+          [32.30, 75.30], [32.65, 74.60], [33.10, 74.10], [33.90, 74.20],
+          [34.50, 73.90], [34.80, 74.70], [35.20, 75.50], [35.50, 77.00],
+          [36.10, 76.80], [36.85, 75.50], [37.08, 74.70], [36.85, 73.50],
+          [36.85, 72.50], [36.30, 71.70], [35.50, 71.45], [34.70, 71.30],
+          [34.10, 71.10], [33.90, 70.00], [33.50, 70.30], [32.90, 69.60],
+          [32.20, 69.30], [31.60, 69.20], [31.10, 67.80], [30.92, 66.43],
+          [29.60, 65.50], [29.50, 62.50], [29.85, 60.88], [28.95, 61.55],
+          [27.50, 62.70], [26.10, 62.10]
+        ];
+
+        // Kashmir (Jammu & Kashmir) region
+        const kashmirOutline = [
+          [35.50, 77.00], [35.20, 75.50], [34.80, 74.70], [34.50, 73.90],
+          [33.90, 74.20], [33.10, 74.10], [32.65, 74.60], [32.45, 75.60],
+          [32.90, 76.60], [33.10, 77.80], [32.70, 78.90], [33.50, 79.50],
+          [34.30, 79.10], [34.90, 79.60], [35.60, 79.20], [35.90, 77.90],
+          [36.10, 76.80]
+        ];
+
+        // Subtle internal provincial lines
+        const provinceLines = [
+          // Balochistan - Sindh / Punjab border
+          [[24.90, 66.85], [26.80, 67.35], [28.40, 68.10], [28.45, 69.65], [30.20, 70.05], [31.30, 69.90]],
+          // Sindh - Punjab border
+          [[27.80, 70.05], [28.45, 69.65]],
+          // KPK - Punjab border
+          [[31.30, 69.90], [32.00, 71.20], [33.15, 71.80], [33.85, 72.65], [34.45, 73.40]],
+          // GB - KPK/AJK border
+          [[35.50, 71.45], [35.40, 73.20], [34.80, 74.70]]
+        ];
+
+        const kashmirPath = document.createElementNS(svgNS, 'path');
+        kashmirPath.setAttribute('d', toPath(kashmirOutline, true));
+        kashmirPath.setAttribute('class', 'pk-kashmir');
+        svg.appendChild(kashmirPath);
+
+        const [kx, ky] = project(34.15, 76.85);
+        const kashmirLabel = document.createElementNS(svgNS, 'text');
+        kashmirLabel.setAttribute('x', kx);
+        kashmirLabel.setAttribute('y', ky);
+        kashmirLabel.setAttribute('text-anchor', 'middle');
+        kashmirLabel.setAttribute('class', 'pk-region-label');
+        kashmirLabel.textContent = 'Jammu & Kashmir';
+        svg.appendChild(kashmirLabel);
+
+        const landPath = document.createElementNS(svgNS, 'path');
+        landPath.setAttribute('d', toPath(pkOutline, true));
+        landPath.setAttribute('class', 'pk-land');
+        svg.appendChild(landPath);
+
+        provinceLines.forEach(line => {
+          const p = document.createElementNS(svgNS, 'path');
+          p.setAttribute('d', toPath(line, false));
+          p.setAttribute('class', 'pk-province-line');
+          svg.appendChild(p);
+        });
+
+        // Major cities with red dots (generously spaced across Pakistan & AJK)
+        const mapCities = [
+          { city: 'Karachi', lat: 24.86, lon: 67.01, dx: -8, dy: 15, anchor: 'end' },
+          { city: 'Hyderabad', lat: 25.55, lon: 68.65, dx: 9, dy: 4, anchor: 'start' },
+          { city: 'Quetta', lat: 30.18, lon: 66.97, dx: -10, dy: 4, anchor: 'end' },
+          { city: 'Rahim Yar Khan', lat: 28.15, lon: 70.15, dx: 9, dy: 5, anchor: 'start' },
+          { city: 'Bahawalpur', lat: 29.15, lon: 71.75, dx: 9, dy: 5, anchor: 'start' },
+          { city: 'Multan', lat: 30.10, lon: 71.15, dx: -10, dy: 4, anchor: 'end' },
+          { city: 'Sahiwal', lat: 30.35, lon: 73.20, dx: 9, dy: 5, anchor: 'start' },
+          { city: 'Dera Ismail Khan', lat: 31.65, lon: 70.35, dx: -10, dy: 4, anchor: 'end' },
+          { city: 'Faisalabad', lat: 31.15, lon: 72.75, dx: -10, dy: 5, anchor: 'end' },
+          { city: 'Lahore', lat: 31.42, lon: 74.55, dx: 9, dy: 4, anchor: 'start' },
+          { city: 'Sargodha', lat: 32.15, lon: 72.10, dx: -10, dy: 2, anchor: 'end' },
+          { city: 'Gujranwala', lat: 32.05, lon: 73.75, dx: -10, dy: -4, anchor: 'end' },
+          { city: 'Sialkot', lat: 32.62, lon: 74.82, dx: 9, dy: -2, anchor: 'start' },
+          { city: 'Dadial(A.J.K)', lat: 33.42, lon: 74.25, dx: 9, dy: 3, anchor: 'start' },
+          { city: 'Rawalpindi', lat: 33.05, lon: 72.55, dx: -10, dy: 5, anchor: 'end' },
+          { city: 'Islamabad', lat: 33.78, lon: 73.15, dx: 9, dy: -2, anchor: 'start' },
+          { city: 'Peshawar', lat: 33.80, lon: 70.95, dx: -10, dy: 3, anchor: 'end' },
+          { city: 'Mardan', lat: 34.48, lon: 72.05, dx: 0, dy: -10, anchor: 'middle' },
+          { city: 'Abbottabad', lat: 34.45, lon: 73.60, dx: 9, dy: 3, anchor: 'start' },
+          { city: 'Chitral', lat: 35.95, lon: 71.75, dx: -10, dy: 4, anchor: 'end' },
+          { city: 'Gilgit', lat: 36.05, lon: 74.55, dx: 9, dy: 4, anchor: 'start' }
+        ];
+
+        function showTooltip(city, x, y) {
+          if (!tooltip) return;
+          const count = (dcmDealersByCity[city] || []).length;
+          tooltip.textContent = `${city} (${count} ${count === 1 ? 'Dealer' : 'Dealers'})`;
+          const stage = svg.parentElement;
+          const svgRect = svg.getBoundingClientRect();
+          const stageRect = stage.getBoundingClientRect();
+          const leftPx = (x / 600) * svgRect.width + (svgRect.left - stageRect.left);
+          const topPx = (y / 540) * svgRect.height + (svgRect.top - stageRect.top);
+          tooltip.style.left = `${leftPx}px`;
+          tooltip.style.top = `${topPx}px`;
+          tooltip.classList.add('visible');
+        }
+
+        function hideTooltip() {
+          if (tooltip) tooltip.classList.remove('visible');
+        }
+
+        mapCities.forEach(item => {
+          const [cx, cy] = project(item.lat, item.lon);
+          const g = document.createElementNS(svgNS, 'g');
+          g.setAttribute('class', 'pk-city-dot-group');
+          g.setAttribute('data-city', item.city);
+          g.setAttribute('tabindex', '0');
+          g.setAttribute('role', 'button');
+          g.setAttribute('aria-label', `Show DCM dealers in ${item.city}`);
+
+          const hit = document.createElementNS(svgNS, 'circle');
+          hit.setAttribute('cx', cx);
+          hit.setAttribute('cy', cy);
+          hit.setAttribute('r', '20');
+          hit.setAttribute('class', 'pk-city-hitarea');
+
+          const pulse = document.createElementNS(svgNS, 'circle');
+          pulse.setAttribute('cx', cx);
+          pulse.setAttribute('cy', cy);
+          pulse.setAttribute('r', '7');
+          pulse.setAttribute('class', 'pk-city-pulse');
+
+          const dot = document.createElementNS(svgNS, 'circle');
+          dot.setAttribute('cx', cx);
+          dot.setAttribute('cy', cy);
+          dot.setAttribute('r', '5');
+          dot.setAttribute('class', 'pk-city-dot');
+
+          const label = document.createElementNS(svgNS, 'text');
+          label.setAttribute('x', cx + item.dx);
+          label.setAttribute('y', cy + item.dy);
+          label.setAttribute('text-anchor', item.anchor);
+          label.setAttribute('class', 'pk-city-label');
+          label.textContent = item.city;
+
+          g.appendChild(hit);
+          g.appendChild(pulse);
+          g.appendChild(dot);
+          g.appendChild(label);
+
+          const selectCity = () => {
+            renderDealers(item.city);
+          };
+
+          g.addEventListener('click', selectCity);
+          g.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              selectCity();
+            }
+          });
+          g.addEventListener('mouseenter', () => showTooltip(item.city, cx, cy));
+          g.addEventListener('mouseleave', hideTooltip);
+          g.addEventListener('focus', () => showTooltip(item.city, cx, cy));
+          g.addEventListener('blur', hideTooltip);
+
+          svg.appendChild(g);
+        });
+      })();
+
+      selector.addEventListener('change', (e) => {
+        renderDealers(e.target.value);
+      });
+
+      accordionsContainer.addEventListener('click', (e) => {
+        const header = e.target.closest('.dealer-accordion-header');
+        if (!header) return;
+
+        const item = header.closest('.dealer-accordion-item');
+        const isOpen = item.classList.toggle('is-open');
+        header.classList.toggle('active', isOpen);
+        header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      });
+    })();
+  </script>
+
+  <!-- Products Available in DCM - 2-Row Opposite-Direction Scroll Controller -->
+  <script>
+    (function initDcmProductsTwoRowReveal() {
+      const section = document.getElementById('dcm-products');
+      const row1 = document.getElementById('productsRow1');
+      const row2 = document.getElementById('productsRow2');
+      if (!section || !row1 || !row2) return;
+
+      let currentP = -1;
+      let targetP = 0;
+      let ticking = false;
+
+      function updateProgress() {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight;
+        // Animate across a full scroll span as the section rises from bottom to top of viewport
+        const startY = vh * 0.95;
+        const endY = vh * 0.12;
+        const raw = (startY - rect.top) / (startY - endY);
+        targetP = Math.max(0, Math.min(1, raw));
+
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(renderLoop);
+        }
+      }
+
+      function renderFrame(p) {
+        // Gentle quadratic ease so products visibly glide from off-screen into center
+        const eased = 1 - Math.pow(1 - p, 2);
+        const maxOffset = window.innerWidth * 0.65;
+        const offset1 = -maxOffset * (1 - eased); // Row 1: left -> right
+        const offset2 = maxOffset * (1 - eased);  // Row 2: right -> left
+
+        row1.style.transform = `translate3d(${offset1.toFixed(1)}px, 0, 0)`;
+        row2.style.transform = `translate3d(${offset2.toFixed(1)}px, 0, 0)`;
+      }
+
+      function renderLoop() {
+        const diff = targetP - currentP;
+        if (Math.abs(diff) < 0.0005) {
+          currentP = targetP;
+          renderFrame(currentP);
+          ticking = false;
+          return;
+        }
+
+        currentP += diff * 0.14;
+        renderFrame(currentP);
+        requestAnimationFrame(renderLoop);
+      }
+
+      window.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', () => {
+        currentP = -1;
+        updateProgress();
+      }, { passive: true });
+
+      updateProgress();
+    })();
+  </script>
+
+  <!-- Infinite Product Slider Script -->
+  <script>
+    (function() {
+      const products = [
+        { name: 'Acrylic Plastic Emulsion', file: 'products/acrylic-plastic-emulsion-copy.png', bgColor: '#e8d0f3' },
+        { name: 'Aqua Max Exterior Finish', file: 'products/aqua-max.png', bgColor: '#f8d5b2' },
+        { name: 'Artista Gallon Special Edition', file: 'products/Artista-Gallon.png', bgColor: '#f5e0a0' },
+        { name: 'Durasilk Luxury Emulsion', file: 'products/Durasilk-copy.png', bgColor: '#c5ebd5' },
+        { name: 'Matt Enamel Smooth Finish', file: 'products/Matt Enamel.png', bgColor: '#dbe7b2' },
+        { name: 'Plastic Coat Protective', file: 'products/plasticcoat.png', bgColor: '#f8c2db' },
+        { name: 'Super Emulsion Premium', file: 'products/super emulsion.png', bgColor: '#ecc0f5' },
+        { name: 'Weather Defender Shield', file: 'products/weather-defender-copy.png', bgColor: '#c6dcf8' },
+        { name: 'Weather Max All-Season', file: 'products/weather-max.png', bgColor: '#d1d6fa' }
+      ];
+
+      const heroWrapper = document.querySelector('.hero-wrapper');
+      const track = document.getElementById('productSliderTrack');
+      if (!track) return;
+
+      // Repeats for infinite continuous buffer
+      const REPEATS = 5;
+      const allProducts = [];
+      for (let r = 0; r < REPEATS; r++) {
+        products.forEach((p, origIndex) => {
+          allProducts.push({ ...p, origIndex });
+        });
+      }
+
+      // Render product slides
+      track.innerHTML = allProducts.map((p, idx) => `
+        <div class="product-slide" data-index="${idx}">
+          <img src="${p.file}" alt="${p.name}" class="product-slide-img" loading="lazy" />
+        </div>
+      `).join('');
+
+      const slides = Array.from(track.querySelectorAll('.product-slide'));
+      const baseCount = products.length; // 9 items
+
+      function getItemWidth() {
+        if (slides && slides[0] && slides[0].offsetWidth > 0) {
+          return slides[0].offsetWidth;
+        }
+        const w = window.innerWidth;
+        if (w < 680) return 220;
+        if (w < 900) return 210;
+        return 250;
+      }
+
+      let itemWidth = getItemWidth();
+      let currentIndex = baseCount * 3;
+      let isAnimating = false;
+
+      function getTrackOffset(idx) {
+        return -(idx * itemWidth + itemWidth / 2);
+      }
+
+      function updateActiveClasses() {
+        slides.forEach((s, idx) => {
+          s.classList.remove('active', 'adjacent');
+          if (idx === currentIndex) {
+            s.classList.add('active');
+          } else if (idx === currentIndex - 1 || idx === currentIndex + 1) {
+            s.classList.add('adjacent');
+          }
+        });
+      }
+
+      function positionInstant(idx) {
+        track.style.transition = 'none';
+        const offset = getTrackOffset(idx);
+        track.style.transform = `translate3d(${offset}px, 0, 0)`;
+        updateActiveClasses();
+      }
+
+      // Initial placement
+      positionInstant(currentIndex);
+
+      function step() {
+        if (isAnimating) return;
+        isAnimating = true;
+
+        // Products come from the left side and go to the right:
+        // Moving to currentIndex - 1 translates track to the right (+itemWidth).
+        // The product enters from left and stops right inside the empty cavity of the machine!
+        currentIndex--;
+
+        track.style.transition = 'transform 0.85s cubic-bezier(0.25, 1, 0.5, 1)';
+        const offset = getTrackOffset(currentIndex);
+        track.style.transform = `translate3d(${offset}px, 0, 0)`;
+        updateActiveClasses();
+
+        // 850ms: Arrival at empty cavity
+        setTimeout(() => {
+          // Wrap if approaching boundary
+          if (currentIndex <= baseCount) {
+            currentIndex += baseCount * 2;
+            positionInstant(currentIndex);
+          }
+
+          // STOPS right inside the machine's empty space for 1.8 seconds!
+          setTimeout(() => {
+            isAnimating = false;
+            step();
+          }, 1800);
+
+        }, 850);
+      }
+
+      // Start loop after a brief moment
+      setTimeout(step, 1000);
+
+      // Handle window resize
+      window.addEventListener('resize', () => {
+        itemWidth = getItemWidth();
+        positionInstant(currentIndex);
+      });
+    })();
+  </script>
+
+  <!-- Scroll Reveal Text Blur Animation -->
+  <script>
+    (function initScrollReveal() {
+      const textEl = document.getElementById('scrollRevealText');
+      const section = document.getElementById('about-dcm');
+      if (!textEl || !section) return;
+
+      const fullText = "The Diamond Color Matic (DCM) machine is a cutting-edge technology that offers fast, efficient, and accurate creation of more than a thousand paint colors. Its advanced technology ensures consistency and streamlines the process, delivering personalized color choices in minutes. Explore a world of colors and let your creativity soar with over a thousand customizable paint colors at your fingertips.";
+
+      // Target key phrases to highlight in Diamond Blue upon reveal
+      const highlightPhrases = [
+        "Diamond Color Matic (DCM)",
+        "more than a thousand paint colors",
+        "personalized color choices in minutes",
+        "over a thousand customizable paint colors at your fingertips"
+      ];
+
+      const words = fullText.split(' ');
+      textEl.innerHTML = words.map((w, i) => `<span class="reveal-word" data-index="${i}">${w}</span>`).join(' ');
+
+      const wordSpans = Array.from(textEl.querySelectorAll('.reveal-word'));
+      const totalWords = wordSpans.length;
+
+      // Identify words belonging to highlight phrases
+      const highlightIndices = new Set();
+      highlightPhrases.forEach(phrase => {
+        const pWords = phrase.split(' ');
+        for (let i = 0; i <= words.length - pWords.length; i++) {
+          const slice = words.slice(i, i + pWords.length).join(' ').toLowerCase().replace(/[.,]/g, '');
+          const target = phrase.toLowerCase().replace(/[.,]/g, '');
+          if (slice === target) {
+            for (let j = 0; j < pWords.length; j++) {
+              highlightIndices.add(i + j);
+            }
+          }
+        }
+      });
+
+      wordSpans.forEach((span, i) => {
+        if (highlightIndices.has(i)) {
+          span.setAttribute('data-highlight', 'true');
+        }
+      });
+
+      let ticking = false;
+
+      function updateReveal() {
+        const rect = textEl.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+
+        // Trigger window: begins when text enters at 88% of viewport,
+        // and completes by the time it reaches 32% of viewport (centered)
+        const enterPoint = windowHeight * 0.88;
+        const fullPoint = windowHeight * 0.32;
+        
+        let progress = (enterPoint - rect.top) / (enterPoint - fullPoint);
+        progress = Math.max(0, Math.min(1, progress));
+
+        // Safeguard: if user has scrolled down to the end of the page, ensure 100% visible
+        const isBottom = (window.innerHeight + window.scrollY) >= (document.documentElement.scrollHeight - 60);
+        if (isBottom) {
+          progress = 1;
+        }
+
+        // Distribute word reveals across 88% of the progress range so the final word
+        // is guaranteed to finish completely crisp and in full color before scroll end
+        const range = 0.88;
+        const step = (1 / totalWords) * range;
+        const wordWindow = step * 1.35; // Smooth individual transition per word
+
+        for (let i = 0; i < totalWords; i++) {
+          const span = wordSpans[i];
+          const wordStart = i * step;
+
+          let factor;
+          if (progress <= wordStart) {
+            factor = 0;
+          } else if (progress >= wordStart + wordWindow) {
+            factor = 1;
+          } else {
+            factor = (progress - wordStart) / wordWindow;
+          }
+
+          const blurVal = (1 - factor) * 8; // 8px soft bokeh down to 0px
+          const opacityVal = 0.2 + factor * 0.8; // 0.20 up to 1.0
+          const translateY = (1 - factor) * 5; // 5px subtle rise to 0px
+
+          span.style.filter = `blur(${blurVal.toFixed(1)}px)`;
+          span.style.opacity = opacityVal.toFixed(2);
+          span.style.transform = `translateY(${translateY.toFixed(1)}px)`;
+
+          if (factor >= 0.7) {
+            if (span.getAttribute('data-highlight') === 'true') {
+              span.style.color = '#0b5ed7';
+              span.style.fontWeight = '700';
+            } else {
+              span.style.color = '#0f172a';
+              span.style.fontWeight = '600';
+            }
+          } else {
+            span.style.color = '#94a3b8';
+            span.style.fontWeight = '600';
+          }
+        }
+
+        ticking = false;
+      }
+
+      function onScroll() {
+        if (!ticking) {
+          requestAnimationFrame(updateReveal);
+          ticking = true;
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      updateReveal();
+    })();
+  </script>
+
+  <!-- How DCM Works 4 Stacked Cards Animation Controller -->
+  <script>
+    (function initStackedCardsWalkthrough() {
+      const section = document.getElementById('how-it-works');
+      if (!section) return;
+
+      // -------------------------------------------------------------
+      // 1. CARD 1: SWATCH AUTO-PLAY (Color Inspiration Shifts)
+      // -------------------------------------------------------------
+      const mainRedSwatch = document.getElementById('mainRedSwatch');
+      const redInspirations = ['#D72638', '#C62828', '#E53935', '#B71C1C'];
+      let swatchIndex = 0;
+
+      setInterval(() => {
+        swatchIndex = (swatchIndex + 1) % redInspirations.length;
+        if (mainRedSwatch) {
+          mainRedSwatch.style.backgroundColor = redInspirations[swatchIndex];
+        }
+      }, 3000);
+
+      // -------------------------------------------------------------
+      // 2. CARD 2: FAN DECK AUTO-PLAY (Open & Close Fan Loop)
+      // -------------------------------------------------------------
+      const fanDeckContainer = document.getElementById('fanDeckContainer');
+
+      function runFanDeckCycle() {
+        if (!fanDeckContainer) return;
+        fanDeckContainer.classList.add('open');
+
+        // Stay open for 3.6s showing so many shades of red
+        setTimeout(() => {
+          if (!fanDeckContainer) return;
+          fanDeckContainer.classList.remove('open');
+
+          // Stay closed for 1.2s, then re-open
+          setTimeout(() => {
+            runFanDeckCycle();
+          }, 1200);
+        }, 3600);
+      }
+      runFanDeckCycle();
+
+      // -------------------------------------------------------------
+      // 3. CARD 3: DCM ZOOM SCREEN AUTO-PLAY (Typing & Dispensing Loop)
+      // -------------------------------------------------------------
+      const screenTypedCode = document.getElementById('screenTypedCode');
+      const screenStatusText = document.getElementById('screenStatusText');
+      const screenProgressPct = document.getElementById('screenProgressPct');
+      const screenFillBar = document.getElementById('screenFillBar');
+      const screenBadge = document.getElementById('screenBadge');
+
+      function runDcmMachineCycle() {
+        if (!screenTypedCode || !screenFillBar) return;
+
+        // Reset screen state
+        screenTypedCode.textContent = '';
+        screenFillBar.style.width = '0%';
+        screenProgressPct.textContent = '0%';
+        screenStatusText.textContent = 'Dispensing Colorants...';
+        screenBadge.textContent = 'DISPENSING';
+        screenBadge.style.color = '#38bdf8';
+        screenBadge.style.backgroundColor = 'rgba(56, 189, 248, 0.12)';
+        screenBadge.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+
+        const targetCode = 'QC0331';
+        let charIndex = 0;
+
+        // Type shade code character by character
+        const typingTimer = setInterval(() => {
+          if (charIndex <= targetCode.length) {
+            screenTypedCode.textContent = targetCode.slice(0, charIndex);
+            charIndex++;
+          } else {
+            clearInterval(typingTimer);
+            startDispensing();
+          }
+        }, 110);
+
+        function startDispensing() {
+          const startTime = performance.now();
+          const duration = 2200; // 2.2s dispensing fill
+
+          function frame(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(1, elapsed / duration);
+            const pct = Math.round(progress * 100);
+
+            screenFillBar.style.width = pct + '%';
+            screenProgressPct.textContent = pct + '%';
+
+            if (progress < 1) {
+              requestAnimationFrame(frame);
+            } else {
+              // Complete!
+              screenStatusText.textContent = 'Formulation Complete!';
+              screenBadge.textContent = '100% ACCURATE';
+              screenBadge.style.color = '#4ade80';
+              screenBadge.style.backgroundColor = 'rgba(74, 222, 128, 0.12)';
+              screenBadge.style.borderColor = 'rgba(74, 222, 128, 0.3)';
+
+              // Hold completed screen for 2.8 seconds, then restart cycle
+              setTimeout(runDcmMachineCycle, 2800);
+            }
+          }
+          requestAnimationFrame(frame);
+        }
+      }
+      runDcmMachineCycle();
+
+      // -------------------------------------------------------------
+      // 4. CARD 4: PURE PRODUCT IMAGES SLIDESHOW AUTO-PLAY
+      // -------------------------------------------------------------
+      const productHeroImg = document.getElementById('activeProductImg');
+      const productImages = [
+        'products/Durasilk-copy.png',
+        'products/weather-defender-copy.png',
+        'products/Matt Enamel.png',
+        'products/super emulsion.png',
+        'products/aqua-max.png'
+      ];
+      let productIdx = 0;
+
+      setInterval(() => {
+        productIdx = (productIdx + 1) % productImages.length;
+        if (productHeroImg) {
+          productHeroImg.style.opacity = '0';
+          setTimeout(() => {
+            productHeroImg.src = productImages[productIdx];
+            productHeroImg.style.opacity = '1';
+          }, 200);
+        }
+      }, 2800);
+
+      // -------------------------------------------------------------
+      // 5. HOW IT WORKS: SCROLL-DRIVEN PINNED STAGE STACKING CONTROLLER
+      // Exact architecture and lerp math ported from DP App Vis Webpage
+      // -------------------------------------------------------------
+      const cardsStack = document.getElementById('process-cards-stack');
+      if (cardsStack) {
+        const stackCards = Array.from(cardsStack.querySelectorAll('.stacked-card'));
+        if (stackCards.length >= 4) {
+          let currentP = -1;
+          let targetP = 0;
+          let ticking = false;
+
+          // Smoothstep easing for zero-jerk transitions
+          const ease = (t) => t * t * (3 - 2 * t);
+
+          function updateStackingProgress() {
+            const secRect = section.getBoundingClientRect();
+            const maxScroll = section.offsetHeight - window.innerHeight;
+            if (maxScroll <= 0) return;
+
+            const stickyTop = 25;
+            const scrolledIntoSec = -secRect.top + stickyTop;
+            targetP = Math.max(0, Math.min(1, scrolledIntoSec / maxScroll));
+
+            if (!ticking) {
+              ticking = true;
+              requestAnimationFrame(renderStackLoop);
+            }
+          }
+
+          function renderStackFrame(p) {
+            // Phase 1: Card 1 glides in and Card 0 scales/blurs (progress 0.08 to 0.35)
+            const t1 = Math.max(0, Math.min(1, (p - 0.08) / 0.27));
+            const e1 = ease(t1);
+
+            // Phase 2: Card 2 glides in and Card 1 scales/blurs (progress 0.40 to 0.67)
+            const t2 = Math.max(0, Math.min(1, (p - 0.40) / 0.27));
+            const e2 = ease(t2);
+
+            // Phase 3: Card 3 glides in and Card 2 scales/blurs (progress 0.72 to 0.96)
+            const t3 = Math.max(0, Math.min(1, (p - 0.72) / 0.24));
+            const e3 = ease(t3);
+
+            // Card 0 (Inspiration): stays at (0,0,0), scales down gently as cards stack on it
+            const s0 = 1 - 0.035 * e1 - 0.035 * e2 - 0.035 * e3;
+            stackCards[0].style.transform = `scale(${s0.toFixed(4)})`;
+
+            // Card 1 (Dealer Matching): glides up from bottom, lands at (0,0,0), then scales as cards stack on it
+            const y1 = (1 - e1) * 115;
+            const s1 = 1 - 0.035 * e2 - 0.035 * e3;
+            stackCards[1].style.transform = `translate3d(0, ${y1.toFixed(2)}%, 0) scale(${s1.toFixed(4)})`;
+
+            // Card 2 (Automated Tinting): glides up from bottom, lands at (0,0,0), then scales as card 3 stacks on it
+            const y2 = (1 - e2) * 115;
+            const s2 = 1 - 0.035 * e3;
+            stackCards[2].style.transform = `translate3d(0, ${y2.toFixed(2)}%, 0) scale(${s2.toFixed(4)})`;
+
+            // Card 3 (Ready in Any Product): glides up from bottom, lands at EXACT (0,0,0), stays locked through p=1.00
+            const y3 = (1 - e3) * 115;
+            stackCards[3].style.transform = `translate3d(0, ${y3.toFixed(2)}%, 0)`;
+
+            // Blur only inner elements (stacked-card-info & stacked-card-visual) so outer borders have ZERO drop-shadow halo
+            const blur0 = (e1 * 2 + e2 * 2 + e3 * 2).toFixed(1);
+            const op0 = (1 - 0.25 * e1 - 0.25 * e2 - 0.25 * e3).toFixed(2);
+            stackCards[0].querySelectorAll('.stacked-card-info, .stacked-card-visual').forEach(el => {
+              el.style.filter = `blur(${blur0}px)`;
+              el.style.opacity = op0;
+            });
+
+            const blur1 = (e2 * 2.5 + e3 * 2.5).toFixed(1);
+            const op1 = (1 - 0.25 * e2 - 0.25 * e3).toFixed(2);
+            stackCards[1].querySelectorAll('.stacked-card-info, .stacked-card-visual').forEach(el => {
+              el.style.filter = `blur(${blur1}px)`;
+              el.style.opacity = op1;
+            });
+
+            const blur2 = (e3 * 3).toFixed(1);
+            const op2 = (1 - 0.25 * e3).toFixed(2);
+            stackCards[2].querySelectorAll('.stacked-card-info, .stacked-card-visual').forEach(el => {
+              el.style.filter = `blur(${blur2}px)`;
+              el.style.opacity = op2;
+            });
+          }
+
+          function renderStackLoop() {
+            const diff = targetP - currentP;
+            if (Math.abs(diff) < 0.0005) {
+              currentP = targetP;
+              renderStackFrame(currentP);
+              ticking = false;
+              return;
+            }
+
+            currentP += diff * 0.16;
+            renderStackFrame(currentP);
+            requestAnimationFrame(renderStackLoop);
+          }
+
+          window.addEventListener('scroll', updateStackingProgress, { passive: true });
+          window.addEventListener('resize', () => {
+            currentP = -1;
+            updateStackingProgress();
+          }, { passive: true });
+
+          // Initial layout pass
+          updateStackingProgress();
+        }
+      }
+
+    })();
+  </script>
+
+</body>
+</html>
